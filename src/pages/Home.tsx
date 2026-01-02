@@ -64,7 +64,7 @@ const Home = () => {
             </p>
             <p className="text-foreground pl-4 flex items-center gap-2">
               <MapPin className="w-4 h-4 text-secondary" />
-              Alor Setar, Kedah, Malaysia
+              Yangon, Myanmar
             </p>
           </div>
         </TerminalWindow>

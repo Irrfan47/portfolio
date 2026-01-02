@@ -10,7 +10,7 @@ const About = () => {
     {
       title: 'Web Developer',
       company: 'Freelance',
-      location: 'Yangon, Myanmar',
+      location: 'Remote',
       period: 'Sep 2025 - Present',
       duration: '3 Months',
       type: 'Freelance',
