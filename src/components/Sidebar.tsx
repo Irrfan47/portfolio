@@ -94,7 +94,7 @@ const Sidebar = () => {
           className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 hover:shadow-neon-cyan transition-all duration-300 font-mono text-sm"
         >
           <Download className="w-4 h-4" />
-          <span>download resume.pdf</span>
+          <span>Download Resume</span>
         </a>
       </div>
 
