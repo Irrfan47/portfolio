@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   SiReact, SiTypescript, SiPhp, SiMysql, SiTailwindcss, SiJavascript,
   SiPython, SiNodedotjs, SiLaravel, SiMongodb, SiExpress, SiBootstrap,
   SiFlask, SiHtml5, SiCss3, SiVite, SiChartdotjs, SiFontawesome
 } from 'react-icons/si';
-import { ArrowLeft, Github, Terminal, Eye, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Github, Terminal, Eye, Star, ChevronLeft, ChevronRight, Loader } from 'lucide-react';
 import GlowCard from '../components/GlowCard';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [isLoadingImages, setIsLoadingImages] = useState(false);
 
   const getProjectImages = (projectTitle: string) => {
     switch (projectTitle) {
@@ -31,6 +33,47 @@ const Projects = () => {
         return [];
     }
   };
+
+  const preloadImages = (imageUrls: string[]) => {
+    setIsLoadingImages(true);
+    const newLoadedImages = new Set(loadedImages);
+    let loadedCount = 0;
+
+    imageUrls.forEach((url) => {
+      if (newLoadedImages.has(url)) {
+        loadedCount++;
+        if (loadedCount === imageUrls.length) {
+          setIsLoadingImages(false);
+        }
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        newLoadedImages.add(url);
+        loadedCount++;
+        setLoadedImages(new Set(newLoadedImages));
+        if (loadedCount === imageUrls.length) {
+          setIsLoadingImages(false);
+        }
+      };
+      img.onerror = () => {
+        loadedCount++;
+        if (loadedCount === imageUrls.length) {
+          setIsLoadingImages(false);
+        }
+      };
+      img.src = url;
+    });
+  };
+
+  useEffect(() => {
+    if (selectedProject !== null) {
+      const project = projects[selectedProject];
+      const images = getProjectImages(project.title);
+      preloadImages(images);
+    }
+  }, [selectedProject]);
 
   const nextImage = () => {
     const project = projects[selectedProject!];
@@ -215,7 +258,13 @@ const Projects = () => {
           <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <GlowCard className="overflow-hidden" glowColor={project.color as any} hover={false}>
               <div className="relative">
-                <div className="aspect-video bg-muted/20">
+                <div className="aspect-video bg-muted/20 flex items-center justify-center">
+                  {isLoadingImages && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Loader className="w-5 h-5 animate-spin" />
+                      <span className="font-mono text-sm">loading images...</span>
+                    </div>
+                  )}
                   <img
                     src={images[currentImageIndex]}
                     alt={`${project.title} Screenshot ${currentImageIndex + 1}`}

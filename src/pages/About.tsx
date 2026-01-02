@@ -10,7 +10,7 @@ const About = () => {
     {
       title: 'Web Developer',
       company: 'Freelance',
-      location: 'Alor Setar, Kedah, Malaysia',
+      location: 'Yangon, Myanmar',
       period: 'Sep 2025 - Present',
       duration: '3 Months',
       type: 'Freelance',
