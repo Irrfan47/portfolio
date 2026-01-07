@@ -85,17 +85,21 @@ const StatusBar = () => {
         {/* Center - Navigation */}
         <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 rounded-full bg-nothing-black/20 backdrop-blur-md border border-white/10">
           {sections.map((section) => (
-            <button
+            <a
               key={section.id}
-              onClick={() => scrollToSection(section.id)}
+              href={`#${section.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(section.id);
+              }}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${activeSection === section.id
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                 }`}
             >
               <section.icon className="w-3.5 h-3.5" />
               <span className="text-xs font-medium font-mono hidden sm:block">{section.label}</span>
-            </button>
+            </a>
           ))}
         </nav>
 
