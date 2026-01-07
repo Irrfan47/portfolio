@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://portfolio.xz3tt.dev/sitemap.xml

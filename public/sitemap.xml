@@ -2,29 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Page -->
   <url>
-    <loc>https://xz3tt.dev/</loc>
-    <lastmod>2024-03-20</lastmod>
+    <loc>https://portfolio.xz3tt.dev/</loc>
+    <lastmod>2026-01-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- Main Sections (Anchors are not typically indexed as separate pages, but helpful for structure if parsing) -->
   <url>
-    <loc>https://xz3tt.dev/#home</loc>
+    <loc>https://portfolio.xz3tt.dev/#home</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://xz3tt.dev/#about</loc>
+    <loc>https://portfolio.xz3tt.dev/#about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://xz3tt.dev/#projects</loc>
+    <loc>https://portfolio.xz3tt.dev/#projects</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://xz3tt.dev/#contact</loc>
+    <loc>https://portfolio.xz3tt.dev/#contact</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
