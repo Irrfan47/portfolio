@@ -44,6 +44,12 @@ const StatusBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (activeSection) {
+      window.history.replaceState(null, "", `#${activeSection}`);
+    }
+  }, [activeSection]);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -91,6 +97,7 @@ const StatusBar = () => {
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection(section.id);
+                window.history.pushState(null, "", `#${section.id}`);
               }}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${activeSection === section.id
                 ? "bg-foreground text-background"

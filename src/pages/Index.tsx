@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BootSequence from "@/components/BootSequence";
 import StatusBar from "@/components/StatusBar";
@@ -15,6 +15,18 @@ const Index = () => {
   const [bootComplete, setBootComplete] = useState(() => {
     return sessionStorage.getItem("system_booted") === "true";
   });
+
+  useEffect(() => {
+    if (bootComplete && window.location.hash) {
+      const id = window.location.hash.slice(1);
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [bootComplete]);
 
   return (
     <>
