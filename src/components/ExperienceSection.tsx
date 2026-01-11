@@ -54,7 +54,7 @@ const ExperienceSection = () => {
   };
 
   return (
-    <section className="py-8 relative">
+    <section className="pt-4 pb-8 relative">
       <div className="container px-4 sm:px-6">
         {/* Section Header */}
         <motion.div

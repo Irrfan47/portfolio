@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BootSequence from "@/components/BootSequence";
 import StatusBar from "@/components/StatusBar";
-import CustomCursor from "@/components/CustomCursor";
 import HeroSection from "@/components/HeroSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import EducationSection from "@/components/EducationSection";
@@ -30,8 +29,6 @@ const Index = () => {
 
   return (
     <>
-      <CustomCursor />
-
       {!bootComplete && (
         <BootSequence onComplete={() => {
           setBootComplete(true);

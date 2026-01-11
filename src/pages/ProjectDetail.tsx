@@ -2,7 +2,6 @@ import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ExternalLink, Terminal, Github, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { projects } from "@/data/projects";
-import CustomCursor from "@/components/CustomCursor";
 import StatusBar from "@/components/StatusBar";
 import { useState, useEffect } from "react";
 
@@ -65,7 +64,6 @@ const ProjectDetail = () => {
 
   return (
     <>
-      <CustomCursor />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -55,7 +55,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="min-h-screen pt-20 pb-6 relative">
+    <section className="pt-20 pb-0 relative">
       <div className="container px-4 sm:px-6">
         {/* Section Header */}
         <motion.div

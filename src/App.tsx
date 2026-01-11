@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import ProjectDetail from "./pages/ProjectDetail";
 import NotFound from "./pages/NotFound";
 import BackToTop from "./components/BackToTop";
+import CustomCursor from "./components/CustomCursor";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <BackToTop />
+        <CustomCursor />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
