@@ -72,7 +72,7 @@ const ProjectsSection = () => {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 glass-panel flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="flex items-center gap-2 font-mono text-sm text-nothing-red">
-                    <span>LAUNCH</span>
+                    <span>SYSTEM_INFO</span>
                     <ExternalLink className="w-4 h-4" />
                   </div>
                 </div>

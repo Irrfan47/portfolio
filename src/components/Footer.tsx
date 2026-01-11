@@ -21,7 +21,7 @@ const Footer = () => {
 
           <div className="font-mono text-xs text-muted-foreground text-center sm:text-right">
             <p>© {currentYear} KAUNG KHANT MG MG. ALL RIGHTS RESERVED.</p>
-            <p className="mt-1">BUILT WITH INSPIRED BY NOTHING_OS</p>
+            <p className="mt-1">DESIGNED WITH NOTHING OS AESTHETICS</p>
           </div>
         </div>
 
