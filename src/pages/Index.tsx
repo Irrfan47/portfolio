@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import BootSequence from "@/components/BootSequence";
 import StatusBar from "@/components/StatusBar";
@@ -14,18 +15,19 @@ const Index = () => {
   const [bootComplete, setBootComplete] = useState(() => {
     return sessionStorage.getItem("system_booted") === "true";
   });
+  const location = useLocation();
 
   useEffect(() => {
-    if (bootComplete && window.location.hash) {
-      const id = window.location.hash.slice(1);
+    if (bootComplete && location.hash) {
+      const id = location.hash.slice(1);
       const element = document.getElementById(id);
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+        }, 300);
       }
     }
-  }, [bootComplete]);
+  }, [bootComplete, location.hash]);
 
   // Active Scroll Tracking Update
   useEffect(() => {
