@@ -1,9 +1,18 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 
 const ProjectsSection = () => {
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 3);
+  };
+
+  const displayedProjects = projects.slice(0, visibleCount);
+
   return (
     <section className="py-8 relative">
       <div className="container px-4 sm:px-6">
@@ -28,13 +37,13 @@ const ProjectsSection = () => {
 
         {/* App Drawer Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {projects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <Link key={project.id} to={`/project/${project.id}`}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 * index, duration: 0.4 }}
+                transition={{ delay: 0.1 * (index % 3), duration: 0.4 }}
                 whileHover={{ scale: 1.02 }}
                 className="glass-panel p-6 relative group cursor-pointer glitch-hover hoverable h-full"
               >
@@ -85,6 +94,29 @@ const ProjectsSection = () => {
             </Link>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {visibleCount < projects.length && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex justify-center mt-12"
+          >
+            <button
+              onClick={handleLoadMore}
+              className="group flex flex-col items-center gap-2"
+            >
+              <div className="px-6 py-3 bg-muted border border-nothing-border group-hover:border-nothing-red transition-all duration-300 flex items-center gap-2 hoverable">
+                <span className="font-mono text-xs text-foreground group-hover:text-nothing-red transition-colors">
+                  LOAD_MORE_PROJECTS()
+                </span>
+                <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-nothing-red transition-colors group-hover:translate-y-1" />
+              </div>
+              <div className="w-px h-8 bg-gradient-to-b from-nothing-red/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   );
