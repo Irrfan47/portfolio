@@ -190,7 +190,7 @@ const HeroSection = () => {
                 </div>
                 <div className="font-mono text-xs">
                   <span className="text-muted-foreground">PROJECTS_COMPLETED:</span>{" "}
-                  <span className="text-foreground">20+</span>
+                  <span className="text-foreground">9+</span>
                 </div>
                 <div className="font-mono text-xs">
                   <span className="text-muted-foreground">COFFEE_CONSUMED:</span>{" "}

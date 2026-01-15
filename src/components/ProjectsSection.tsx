@@ -45,49 +45,55 @@ const ProjectsSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 * (index % 3), duration: 0.4 }}
                 whileHover={{ scale: 1.02 }}
-                className="glass-panel p-6 relative group cursor-pointer glitch-hover hoverable h-full"
+                className="glass-panel p-6 relative group cursor-pointer glitch-hover hoverable h-full overflow-hidden"
               >
-                {/* App Icon */}
-                <div className="w-12 h-12 rounded-lg bg-muted border border-nothing-border flex items-center justify-center mb-4 group-hover:border-nothing-red transition-colors">
-                  <span className="font-display text-lg text-foreground">
-                    {project.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
-                  </span>
+                {/* X-Ray Background */}
+                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                  <img
+                    src={project.screenshots[0]}
+                    alt=""
+                    className="w-full h-full object-cover grayscale"
+                  />
                 </div>
 
-                {/* App Info */}
-                <h3 className="font-mono text-sm text-foreground mb-1 group-hover:text-nothing-red transition-colors">
-                  {project.name}
-                </h3>
-
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {project.version}
-                  </span>
-                  <span className="text-nothing-border">•</span>
-                  <span className={`font-mono text-xs ${project.status === "ACTIVE" || project.status === "LIVE"
-                    ? "text-nothing-red"
-                    : project.status === "BETA" || project.status === "FYP"
-                      ? "text-yellow-500"
-                      : "text-emerald-400"
-                    }`}>
-                    {project.status}
-                  </span>
-                </div>
-
-                <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 glass-panel flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="flex items-center gap-2 font-mono text-sm text-nothing-red">
-                    <span>SYSTEM_INFO</span>
-                    <ExternalLink className="w-4 h-4" />
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* App Icon */}
+                  <div className="w-12 h-12 rounded-lg bg-muted border border-nothing-border flex items-center justify-center mb-4 group-hover:border-nothing-red transition-colors">
+                    <span className="font-display text-lg text-foreground">
+                      {project.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                    </span>
                   </div>
+
+                  {/* App Info */}
+                  <h3 className="font-mono text-sm text-foreground mb-1 group-hover:text-nothing-red transition-colors">
+                    {project.name}
+                  </h3>
+
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="font-mono text-xs text-muted-foreground">
+                      {project.version}
+                    </span>
+                    <span className="text-nothing-border">•</span>
+                    <span className={`font-mono text-xs ${project.status === "ACTIVE" || project.status === "LIVE"
+                      ? "text-nothing-red"
+                      : project.status === "BETA" || project.status === "FYP"
+                        ? "text-yellow-500"
+                        : "text-emerald-400"
+                      }`}>
+                      {project.status}
+                    </span>
+                  </div>
+
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">
+                    {project.description}
+                  </p>
                 </div>
+
+
 
                 {/* Corner Accent */}
-                <div className="absolute top-0 right-0 w-8 h-8">
+                <div className="absolute top-0 right-0 w-8 h-8 z-20">
                   <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-nothing-border group-hover:border-nothing-red transition-colors" />
                 </div>
               </motion.div>
