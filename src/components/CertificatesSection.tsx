@@ -11,7 +11,7 @@ const certificates = [
     link: "https://www.credly.com/badges/63c5f77b-830b-41e6-9688-796cdb68fea8/public_url",
   },
   {
-    name: "5G Pioneers program",
+    name: "5G Pioneers Program",
     issuer: "ERICSSON",
     date: "Mar 22, 2024",
     credentialId: "CREDLY-ERICSSON",

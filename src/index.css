@@ -118,7 +118,7 @@
   /* Matrix Dots Pattern */
   .dot-pattern {
     background-image: radial-gradient(circle,
-        hsl(var(--nothing-text) / 0.15) 1px,
+        hsl(var(--nothing-text) / 0.4) 1px,
         transparent 1px);
     background-size: 20px 20px;
   }
@@ -359,17 +359,7 @@
     font-family: var(--font-mono);
   }
 
-  .text-nothing-red {
-    color: hsl(var(--nothing-red));
-  }
 
-  .bg-nothing-red {
-    background-color: hsl(var(--nothing-red));
-  }
-
-  .border-nothing-red {
-    border-color: hsl(var(--nothing-red));
-  }
 
   .tracking-system {
     letter-spacing: 0.2em;

@@ -13,6 +13,22 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "padetha-rusk",
+    name: "Padetha Rusk",
+    version: "v1.0.0",
+    status: "LIVE",
+    description: "A legendary Burmese tea-time tradition since 1967, specializing in perfectly crispy, traditional twice-baked cake rusks.",
+    fullDescription: "Established in the heart of Pyawbwe Township, Mandalay Region, Padetha Rusk is an iconic symbol of Burmese tea-time culture. For over 55 years, the brand has preserved a guarded family recipe and a traditional twice-baked method to create its signature golden color and satisfying crunch. What began as a family’s passion in 1967 has grown into a household name across Myanmar and beyond, continuing to bring families together one perfect dip at a time.",
+    techStack: ["React", "Tailwind CSS", "TypeScript", "HTML"],
+    screenshots: [
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/pdt1.png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/pdt2.png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/pdt3.png"
+    ],
+    sourceCode: "https://padetha.xz3tt.dev",
+    featured: true
+  },
+  {
     id: "budget-management-system",
     name: "Budget Management System",
     version: "v1.0.0",
