@@ -27,6 +27,34 @@ const Index = () => {
     }
   }, [bootComplete]);
 
+  // Active Scroll Tracking Update
+  useEffect(() => {
+    if (!bootComplete) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Update URL specific hash without adding to history stack (replace)
+            // This ensures "Back" goes to this specific section view
+            window.history.replaceState(null, "", `#${entry.target.id}`);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the section is visible
+      }
+    );
+
+    const sections = ["home", "about", "projects", "contact"];
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [bootComplete]);
+
   return (
     <>
       {!bootComplete && (

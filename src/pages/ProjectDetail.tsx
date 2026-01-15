@@ -88,7 +88,7 @@ const ProjectDetail = () => {
               className="mb-8"
             >
               <Link
-                to="/"
+                to="/#projects"
                 className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground hover:text-nothing-red transition-colors hoverable"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -144,17 +144,30 @@ const ProjectDetail = () => {
                 </p>
               </div>
 
-              {project.sourceCode && (
-                <a
-                  href={project.sourceCode}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-border font-mono text-xs hover:border-nothing-red hover:text-nothing-red transition-all group hoverable"
-                >
-                  <Github className="w-3 h-3 group-hover:animate-pulse" />
-                  <span>VIEW_SOURCE_CODE()</span>
-                </a>
-              )}
+              <div className="flex gap-4">
+                {project.sourceCode && (
+                  <a
+                    href={project.sourceCode}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-border font-mono text-xs hover:border-nothing-red hover:text-nothing-red transition-all group hoverable"
+                  >
+                    <Github className="w-3 h-3 group-hover:animate-pulse" />
+                    <span>VIEW_SOURCE_CODE()</span>
+                  </a>
+                )}
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-border font-mono text-xs hover:border-nothing-red hover:text-nothing-red transition-all group hoverable"
+                  >
+                    <ExternalLink className="w-3 h-3 group-hover:animate-pulse" />
+                    <span>VISIT_WEBSITE()</span>
+                  </a>
+                )}
+              </div>
             </motion.div>
 
             {/* Tech Stack */}

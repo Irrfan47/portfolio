@@ -8,6 +8,7 @@ export interface Project {
   techStack: string[];
   screenshots: string[];
   sourceCode: string;
+  liveUrl?: string;
   featured: boolean;
 }
 
@@ -26,6 +27,7 @@ export const projects: Project[] = [
       "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/pdt3.png"
     ],
     sourceCode: "https://padetha.xz3tt.dev",
+    liveUrl: "https://padetha.xz3tt.dev",
     featured: true
   },
   {
