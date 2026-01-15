@@ -175,7 +175,7 @@ const HeroSection = () => {
               <span className="font-mono text-xs text-muted-foreground">cat about.txt</span>
             </div>
 
-            <div className="font-mono text-sm text-foreground leading-relaxed max-w-3xl">
+            <div className="font-mono text-sm text-foreground leading-relaxed">
               <TypeWriter
                 text="A passionate Full Stack Developer with expertise in building modern web applications. I specialize in creating scalable, user-centric solutions that bridge the gap between complex backend systems and intuitive frontend experiences. Currently focusing on enterprise-level applications and system architecture."
                 delay={0.8}
