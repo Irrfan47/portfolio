@@ -7,6 +7,10 @@ const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Check if device supports hover/fine pointer
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!isFinePointer) return;
+
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
@@ -15,33 +19,30 @@ const CustomCursor = () => {
     const handleMouseEnter = () => setIsVisible(true);
     const handleMouseLeave = () => setIsVisible(false);
 
-    const handleHoverStart = (e: MouseEvent) => {
+    const checkHoverState = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
+
+      // Check if the element or its parents are hoverable
+      const isHoverable =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
         target.closest("a") ||
         target.closest("button") ||
-        target.classList.contains("hoverable")
-      ) {
-        setIsHovering(true);
-      }
-    };
+        target.closest(".hoverable") !== null;
 
-    const handleHoverEnd = () => setIsHovering(false);
+      setIsHovering(!!isHoverable);
+    };
 
     window.addEventListener("mousemove", updatePosition);
     document.addEventListener("mouseenter", handleMouseEnter);
     document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseover", handleHoverStart);
-    document.addEventListener("mouseout", handleHoverEnd);
+    document.addEventListener("mouseover", checkHoverState);
 
     return () => {
       window.removeEventListener("mousemove", updatePosition);
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseover", handleHoverStart);
-      document.removeEventListener("mouseout", handleHoverEnd);
+      document.removeEventListener("mouseover", checkHoverState);
     };
   }, []);
 
@@ -59,9 +60,8 @@ const CustomCursor = () => {
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       >
         <div
-          className={`rounded-full border transition-colors duration-200 ${
-            isHovering ? "w-12 h-12 border-nothing-red" : "w-8 h-8 border-foreground"
-          }`}
+          className={`rounded-full border transition-colors duration-200 ${isHovering ? "w-12 h-12 border-nothing-red" : "w-8 h-8 border-foreground"
+            }`}
         />
       </motion.div>
 
