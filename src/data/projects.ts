@@ -13,6 +13,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+
   {
     id: "padetha-rusk",
     name: "Padetha Rusk",
@@ -150,6 +151,24 @@ export const projects: Project[] = [
       "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/ems_6.png"
     ],
     sourceCode: "https://github.com/Irrfan47/Enterprise-Management-System",
+    featured: true
+  },
+  {
+    id: "personal-portfolio",
+    name: "Personal Portfolio",
+    version: "v2.0.0",
+    status: "LIVE",
+    description: "A modern, responsive portfolio website featuring a unique 'Nothing OS' inspired design.",
+    fullDescription: "A personal portfolio website designed to showcase my projects and skills. Built with a focus on unique aesthetics using a 'Nothing OS' inspired design language, it features smooth animations, a responsive layout, and a seamless user experience. The project demonstrates proficiency in modern frontend technologies and design principles.",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion"],
+    screenshots: [
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/portfolio1.png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/portfolio2.png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/portfolio3.png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/portfolio4.png"
+    ],
+    sourceCode: "https://github.com/Irrfan47/portfolio",
+    liveUrl: "https://kaung.xz3tt.dev",
     featured: true
   },
 ];
