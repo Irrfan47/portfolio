@@ -35,7 +35,7 @@ export const projects: Project[] = [
     id: "budget-management-system",
     name: "Budget Management System",
     version: "v1.0.0",
-    status: "LIVE",
+    status: "FUN",
     description: "A comprehensive web application for managing budgets, programs, and users with role-based access control.",
     fullDescription: "A comprehensive web application for managing budgets, programs, and users. This portal facilitates the tracking of financial programs, document management, and user administration with role-based access control. Features include secure login, interactive dashboards, program workflow tracking (Draft -> Completed), and detailed reporting.",
     techStack: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB"],

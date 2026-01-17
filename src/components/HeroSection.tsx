@@ -139,28 +139,30 @@ const HeroSection = () => {
 
           {/* Widget B - Profile Photo */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="lg:col-span-5 glass-panel p-6 relative flex items-center justify-center min-h-[300px] lg:min-h-0"
+            className="lg:col-span-5 glass-panel p-6 relative flex items-center justify-center min-h-[300px] lg:min-h-0 overflow-hidden group"
           >
-            <GlyphRing size={240} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-nothing-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            <GlyphRing size={280} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-80" />
 
             {/* Profile Photo */}
-            <div className="relative z-10 w-40 h-40 rounded-lg bg-muted border border-nothing-border overflow-hidden">
+            <div className="relative z-10 w-56 h-56 rounded-full overflow-hidden border-2 border-nothing-red/30 shadow-[0_0_30px_rgba(227,79,38,0.15)] group-hover:scale-105 transition-transform duration-500">
               <img
                 src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
                 alt="Profile"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-[50%_25%]"
               />
-              <div className="absolute inset-0 dot-pattern" />
             </div>
 
             {/* Corner Decorations */}
-            <div className="absolute top-4 left-4 w-8 h-8 border-l border-t border-nothing-border" />
-            <div className="absolute top-4 right-4 w-8 h-8 border-r border-t border-nothing-border" />
-            <div className="absolute bottom-4 left-4 w-8 h-8 border-l border-b border-nothing-border" />
-            <div className="absolute bottom-4 right-4 w-8 h-8 border-r border-b border-nothing-border" />
+            <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-nothing-red/50" />
+            <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-nothing-red/50" />
+            <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-nothing-red/50" />
+            <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-nothing-red/50" />
           </motion.div>
 
           {/* Widget C - About Terminal */}
