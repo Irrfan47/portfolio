@@ -50,8 +50,8 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
           transition={{ duration: 0.5 }}
           className="fixed inset-0 z-50 bg-background flex items-center justify-center overflow-hidden"
         >
-          <div className="scanlines absolute inset-0" />
-          
+
+
           <div className="w-full max-w-2xl px-8">
             {/* Terminal Window */}
             <div className="glass-panel p-6 border border-nothing-border">
@@ -73,15 +73,14 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.15 }}
-                    className={`${
-                      line.startsWith("[OK]")
+                    className={`${line.startsWith("[OK]")
                         ? "text-emerald-400"
                         : line.startsWith("[SYSTEM]")
-                        ? "text-muted-foreground"
-                        : line === "WELCOME TO XZ3TT.DEV"
-                        ? "text-nothing-red font-display text-xl mt-4 tracking-widest"
-                        : "text-foreground"
-                    }`}
+                          ? "text-muted-foreground"
+                          : line === "WELCOME TO XZ3TT.DEV"
+                            ? "text-nothing-red font-display text-xl mt-4 tracking-widest"
+                            : "text-foreground"
+                      }`}
                   >
                     {line}
                   </motion.div>

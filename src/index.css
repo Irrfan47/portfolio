@@ -93,11 +93,7 @@
     backdrop-filter: blur(20px);
   }
 
-  /* Scanline Effect */
-  .scanlines {
-    position: relative;
-    overflow: hidden;
-  }
+
 
 
 
@@ -349,6 +345,18 @@
     100% {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Scan line animation for terminal */
+  @keyframes scan {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(128px);
+      /* Height of the container */
     }
   }
 }

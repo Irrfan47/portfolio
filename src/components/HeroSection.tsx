@@ -150,7 +150,7 @@ const HeroSection = () => {
             <GlyphRing size={280} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-80" />
 
             {/* Profile Photo */}
-            <div className="relative z-10 w-56 h-56 rounded-full overflow-hidden border-2 border-nothing-red/30 shadow-[0_0_30px_rgba(227,79,38,0.15)] group-hover:scale-105 transition-transform duration-500">
+            <div className="relative z-[60] w-56 h-56 rounded-full overflow-hidden border-2 border-nothing-red/30 shadow-[0_0_30px_rgba(227,79,38,0.15)] group-hover:scale-105 transition-transform duration-500">
               <img
                 src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
                 alt="Profile"

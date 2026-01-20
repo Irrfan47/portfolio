@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   name: string;
   version: string;
-  status: "LIVE" | "FYP" | "STABLE" | "ACTIVE" | "BETA";
+  status: "LIVE" | "FYP" | "STABLE" | "ACTIVE" | "BETA" | "DEV";
   description: string;
   fullDescription: string;
   techStack: string[];

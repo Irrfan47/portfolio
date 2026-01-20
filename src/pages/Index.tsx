@@ -73,8 +73,7 @@ const Index = () => {
           transition={{ duration: 0.5 }}
           className="min-h-screen bg-background relative"
         >
-          {/* Scanlines Overlay */}
-          <div className="fixed inset-0 pointer-events-none scanlines z-50" />
+
 
           {/* Dot Pattern Background */}
           <div className="fixed inset-0 pointer-events-none dot-pattern opacity-50" />
