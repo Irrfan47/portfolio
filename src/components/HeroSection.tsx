@@ -28,7 +28,7 @@ const skills = [
   { name: 'GitHub', icon: SiGithub, color: '#FFFFFF' },
 ];
 
-const techStack = [...skills, ...skills]; // Duplicate for seamless marquee
+const techStack = [...skills, ...skills, ...skills, ...skills]; // Duplicate for seamless marquee
 
 const HeroSection = () => {
   const handleDownloadResume = async (e: MouseEvent<HTMLAnchorElement>) => {
@@ -118,7 +118,7 @@ const HeroSection = () => {
 
               {/* Tech Ticker */}
               <div className="overflow-hidden border-t border-b border-nothing-border py-4">
-                <div className="flex whitespace-nowrap marquee">
+                <div className="flex whitespace-nowrap marquee w-max">
                   {techStack.map((tech, i) => (
                     <div key={i} className="inline-flex items-center gap-2 mx-6 group">
                       <tech.icon
