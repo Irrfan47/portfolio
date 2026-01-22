@@ -194,9 +194,9 @@ const HeroSection = () => {
                   <span className="text-muted-foreground">PROJECTS_COMPLETED:</span>{" "}
                   <span className="text-foreground">9+</span>
                 </div>
-                <div className="font-mono text-xs">
-                  <span className="text-muted-foreground">COFFEE_CONSUMED:</span>{" "}
-                  <span className="text-nothing-red">∞</span>
+                <div className="font-mono text-xs flex items-center gap-1">
+                  <span className="text-muted-foreground">COFFEE_CONSUMED:</span>
+                  <span className="text-nothing-red text-lg leading-none transform translate-y-[1px]">∞</span>
                 </div>
               </div>
             </div>
