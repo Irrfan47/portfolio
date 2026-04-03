@@ -163,7 +163,7 @@ const HeroSection = () => {
                 transition={{ duration: 0.5 }}
                 onLoad={() => setIsLoading(false)}
                 src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
-                alt="Profile"
+                alt="Kaung Khant Mg Mg - Full Stack Web Developer based in Yangon"
                 className="w-full h-full object-cover object-[50%_25%]"
                 fetchPriority="high"
                 // @ts-ignore - fetchPriority is supported in modern browsers
@@ -191,7 +191,7 @@ const HeroSection = () => {
 
             <div className="font-mono text-sm text-foreground leading-relaxed">
               <TypeWriter
-                text="A passionate Full Stack Developer with expertise in building modern web applications. I specialize in creating scalable, user-centric solutions that bridge the gap between complex backend systems and intuitive frontend experiences. Currently focusing on enterprise-level applications and system architecture."
+                text="I'm a full-stack web developer based in Yangon, Myanmar with a Computer Science degree and 3+ years of professional experience. I bridge the gap between design and engineering — building products that are not just functional, but genuinely delightful to use. My background spans startup environments, agency work, and enterprise projects — giving me a versatile perspective on what makes great software. I care deeply about performance, accessibility, and clean code that scales."
                 delay={0.8}
               />
             </div>
