@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { Download } from "lucide-react";
 import {
@@ -8,6 +8,7 @@ import {
 } from "react-icons/si";
 import GlyphRing from "./GlyphRing";
 import TypeWriter from "./TypeWriter";
+import { Skeleton } from "./ui/skeleton";
 
 const skills = [
   { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
@@ -31,6 +32,8 @@ const skills = [
 const techStack = [...skills, ...skills, ...skills, ...skills]; // Duplicate for seamless marquee
 
 const HeroSection = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleDownloadResume = async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const resumeUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf";
@@ -150,11 +153,20 @@ const HeroSection = () => {
             <GlyphRing size={280} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-80" />
 
             {/* Profile Photo */}
-            <div className="relative z-[60] w-56 h-56 rounded-full overflow-hidden border-2 border-nothing-red/30 shadow-[0_0_30px_rgba(227,79,38,0.15)] group-hover:scale-105 transition-transform duration-500">
-              <img
+            <div className="relative z-[60] w-56 h-56 rounded-full overflow-hidden border-2 border-nothing-red/30 shadow-[0_0_30px_rgba(227,79,38,0.15)] group-hover:scale-105 transition-transform duration-500 bg-muted">
+              {isLoading && (
+                <Skeleton className="absolute inset-0 w-full h-full rounded-full" />
+              )}
+              <motion.img
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isLoading ? 0 : 1 }}
+                transition={{ duration: 0.5 }}
+                onLoad={() => setIsLoading(false)}
                 src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
                 alt="Profile"
                 className="w-full h-full object-cover object-[50%_25%]"
+                fetchPriority="high"
+                // @ts-ignore - fetchPriority is supported in modern browsers
               />
             </div>
 

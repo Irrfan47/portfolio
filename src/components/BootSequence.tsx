@@ -24,6 +24,10 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
+    // Pre-load critical assets during boot
+    const img = new Image();
+    img.src = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg";
+
     const timer = setInterval(() => {
       setVisibleLines((prev) => {
         if (prev >= bootLines.length) {
