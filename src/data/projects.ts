@@ -13,6 +13,24 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    id: "filmophia",
+    name: "Filmophia",
+    version: "v1.0.0",
+    status: "LIVE",
+    description: "A premium movie and TV show discovery platform featuring real-time data from TMDB and seamless user authentication.",
+    fullDescription: "Filmophia is a sophisticated entertainment discovery app built with React, TypeScript, and Supabase. It leverages the TMDB API to provide up-to-date information on trending and popular movies and TV shows. The application features a glassmorphism-inspired UI, smooth animations, a personalized favorites system, and a robust search engine, resulting in a premium user experience.",
+    techStack: ["React", "TypeScript", "Supabase", "Tailwind CSS", "TMDB API", "Framer Motion"],
+    screenshots: [
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/filmophia(1).png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/filmophia(2).png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/filmophia(3).png",
+      "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/filmophia(4).png"
+    ],
+    sourceCode: "https://github.com/Irrfan47/filmophia",
+    liveUrl: "https://filmophia.lovable.app/",
+    featured: true
+  },
 
   {
     id: "padetha-rusk",
