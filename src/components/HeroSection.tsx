@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from "react";
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Github, Linkedin, ExternalLink } from "lucide-react";
 import {
   SiHtml5, SiCss3, SiBootstrap, SiTailwindcss, SiJavascript, SiTypescript,
   SiReact, SiNextdotjs, SiVite, SiNodedotjs, SiExpress, SiPhp,
@@ -112,11 +112,33 @@ const HeroSection = () => {
                 <a
                   href="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf"
                   onClick={handleDownloadResume}
-                  className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-red text-nothing-red font-mono text-xs hover:bg-nothing-red hover:text-background transition-colors hoverable group"
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-red text-nothing-red font-mono text-xs hover:bg-nothing-red hover:text-background transition-colors hoverable group shadow-[2px_2px_0px_0px_rgba(255,51,51,0.2)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                 >
                   <Download className="w-3 h-3 group-hover:animate-pulse" />
                   <span>DOWNLOAD_RESUME()</span>
                 </a>
+
+                {/* Social Links */}
+                <div className="flex gap-2">
+                  <a
+                    href="https://github.com/Irrfan47"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 flex items-center justify-center border border-nothing-border text-muted-foreground hover:border-nothing-red hover:text-nothing-red transition-all hoverable shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                    title="GitHub"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/kaung-khant-mg-mg-26a98821a/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 flex items-center justify-center border border-nothing-border text-muted-foreground hover:border-nothing-red hover:text-nothing-red transition-all hoverable shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                    title="LinkedIn"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
 
               {/* Tech Ticker */}
