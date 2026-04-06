@@ -165,7 +165,7 @@ const HeroSection = () => {
                 src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
                 alt="Kaung Khant Mg Mg - Full Stack Web Developer based in Yangon"
                 className="w-full h-full object-cover object-[50%_25%]"
-                fetchPriority="high"
+                {...({ fetchpriority: "high" } as any)}
                 // @ts-ignore - fetchPriority is supported in modern browsers
               />
             </div>

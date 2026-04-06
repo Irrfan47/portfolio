@@ -35,7 +35,7 @@ const BackToTop = () => {
                     exit={{ opacity: 0, scale: 0.8, y: 20 }}
                     transition={{ duration: 0.3 }}
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-40 p-3 rounded-md glass-panel border border-nothing-border text-foreground/80 hover:text-nothing-red hover:border-nothing-red transition-all duration-300 group"
+                    className="fixed bottom-24 right-8 z-40 p-3 rounded-md glass-panel border border-nothing-border text-foreground/80 hover:text-nothing-red hover:border-nothing-red transition-all duration-300 group"
                     aria-label="Back to Top"
                 >
                     <div className="absolute inset-0 bg-nothing-red/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />

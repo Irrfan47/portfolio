@@ -8,6 +8,7 @@ import ProjectDetail from "./pages/ProjectDetail";
 import NotFound from "./pages/NotFound";
 import BackToTop from "./components/BackToTop";
 import CustomCursor from "./components/CustomCursor";
+import Chatbot from "./components/chatbot/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
@@ -25,6 +26,7 @@ const App = () => (
         </Routes>
         <BackToTop />
         <CustomCursor />
+        <Chatbot />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
