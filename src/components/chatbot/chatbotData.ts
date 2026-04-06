@@ -23,12 +23,21 @@ export const chatbotKnowledge: Record<string, ChatStep> = {
   },
   projects: {
     id: "projects",
-    message: "I've worked on various projects, from movie discovery platforms to enterprise management systems. Which one interests you?",
+    message: "I've handled various scales, from movie platforms to full enterprise systems. Which domain interests you?",
     options: [
       { label: "🎬 Filmophia (Movie App)", value: "filmophia", nextStep: "filmophia" },
+      { label: "🏢 Enterprise Systems", value: "enterprise", nextStep: "enterprise" },
       { label: "🛍️ Padetha Rusk (E-comm)", value: "padetha", nextStep: "padetha" },
       { label: "🛡️ Security Scanner", value: "scanner", nextStep: "scanner" },
       { label: "⬅️ Back", value: "back", nextStep: "start" },
+    ],
+  },
+  enterprise: {
+    id: "enterprise",
+    message: "I've built systems for Budgeting, Helpdesks, and Equipment tracking using PHP/React, improving workplace efficiency by 30%.",
+    options: [
+      { label: "💼 View Systems", value: "projects", nextStep: "projects" },
+      { label: "⬅️ Back to Projects", value: "back_projects", nextStep: "projects" },
     ],
   },
   filmophia: {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, RotateCcw, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ReactMarkdown from "react-markdown";
 import { ScrollArea as ShadcnScrollArea } from "@/components/ui/scroll-area";
 import { chatbotKnowledge, ChatStep, ChatOption } from "./chatbotData";
 import { getGeminiResponse } from "./gemini";
@@ -183,7 +184,7 @@ const Chatbot: React.FC = () => {
               ref={chatAreaRef}
               className="flex-1 overflow-y-auto p-4 scrollbar-hide flex flex-col relative z-20"
             >
-              <div className="space-y-6 pb-6 w-full">
+              <div className="space-y-3 pb-6 w-full">
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -192,19 +193,31 @@ const Chatbot: React.FC = () => {
                     className={`flex w-full ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div 
-                        className={`max-w-[85%] p-4 rounded-sm text-[13px] font-mono leading-relaxed border shadow-lg ${
+                        className={`max-w-[90%] px-3 py-2.5 rounded-sm text-[13px] font-mono leading-relaxed border shadow-md ${
                             message.sender === "user" 
                             ? "bg-white text-black font-bold border-white" 
                             : "bg-white/5 text-white/90 border-white/10"
                         }`}
                         style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}
                     >
-                      <div className="flex items-center gap-2 mb-2 opacity-40 text-[9px] uppercase tracking-widest pointer-events-none">
+                      <div className="flex items-center gap-2 mb-1.5 opacity-40 text-[8px] uppercase tracking-widest pointer-events-none">
                          <span>{message.sender === "user" ? "YOU" : "AI"}</span>
                          <span>•</span>
                          <span>{message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
-                      <div className="whitespace-pre-wrap">{message.text}</div>
+                      <div className={`prose max-w-none prose-sm ${message.sender === "user" ? "text-black" : "prose-invert text-white/90"}`}>
+                        <ReactMarkdown
+                          components={{
+                            p: ({ children }) => <p className={`mb-1 last:mb-0 leading-relaxed ${message.sender === "user" ? "text-black" : ""}`}>{children}</p>,
+                            strong: ({ children }) => <strong className={`font-bold uppercase tracking-tight ${message.sender === "user" ? "text-black" : "text-nothing-red"}`}>{children}</strong>,
+                            em: ({ children }) => <em className={`not-italic font-mono font-bold tracking-widest ${message.sender === "user" ? "text-black" : "text-nothing-red"}`}>{children}</em>,
+                            ul: ({ children }) => <ul className="list-disc pl-3 mb-1 space-y-0.5">{children}</ul>,
+                            li: ({ children }) => <li className={`mb-0 ${message.sender === "user" ? "text-black" : "text-white/80"}`}>{children}</li>,
+                          }}
+                        >
+                          {message.text}
+                        </ReactMarkdown>
+                      </div>
 
                       {/* Dynamic Resume Button */}
                       {message.text.includes("https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf") && (
