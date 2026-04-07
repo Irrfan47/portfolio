@@ -92,8 +92,7 @@ const Chatbot: React.FC = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Download failed, opening in new tab:", error);
-      window.open(resumeUrl, '_blank');
+      console.error("Download failed:", error);
     }
   };
 
