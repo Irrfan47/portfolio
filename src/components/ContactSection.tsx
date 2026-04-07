@@ -219,7 +219,7 @@ const ContactSection = () => {
                       linkedin.com/in/kaung-khant...
                     </span>
                     <span className="font-mono text-xs text-muted-foreground">
-                      Professional network
+                      Professional Network
                     </span>
                   </div>
                   <span className="font-mono text-xs text-muted-foreground group-hover:text-nothing-red">
