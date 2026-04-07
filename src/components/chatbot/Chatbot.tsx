@@ -173,8 +173,8 @@ const Chatbot: React.FC = () => {
                   <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
                     <div className="grid grid-cols-2 gap-1 animate-pulse">
                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                       <div className="w-1.5 h-1.5 bg-white rounded-full opacity-30"></div>
-                       <div className="w-1.5 h-1.5 bg-white rounded-full opacity-60"></div>
+                       <div className="w-1.5 h-1.5 bg-[#f00] rounded-full"></div>
+                       <div className="w-1.5 h-1.5 bg-[#f00] rounded-full"></div>
                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                     </div>
                   </div>
@@ -318,9 +318,9 @@ const Chatbot: React.FC = () => {
         {isOpen ? <X className="w-6 h-6" /> : (
           <div className="grid grid-cols-2 gap-1 animate-pulse">
              <div className="w-1 h-1 bg-white rounded-full"></div>
+             <div className="w-1 h-1 bg-[#f00] rounded-full"></div>
+             <div className="w-1 h-1 bg-[#f00] rounded-full"></div>
              <div className="w-1 h-1 bg-white rounded-full"></div>
-             <div className="w-1 h-1 bg-white rounded-full"></div>
-             <div className="w-1 m-auto h-1 bg-white rounded-full bg-[#f00]"></div>
           </div>
         )}
       </motion.button>
