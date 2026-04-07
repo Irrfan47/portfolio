@@ -77,6 +77,26 @@ const Chatbot: React.FC = () => {
     addBotMessage(aiResponse);
   };
 
+  const downloadResume = async () => {
+    const resumeUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf";
+    try {
+      const response = await fetch(resumeUrl);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = "Resume_KaungKhantMgMg.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed, opening in new tab:", error);
+      window.open(resumeUrl, '_blank');
+    }
+  };
+
   const handleOptionClick = async (option: ChatOption) => {
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -87,17 +107,16 @@ const Chatbot: React.FC = () => {
 
     setMessages((prev) => [...prev, userMessage]);
 
+    if (option.value === "download_cv") {
+      await downloadResume();
+      return;
+    }
+
     const specialUrls: Record<string, string> = {
       view_filmophia: "https://filmophia.lovable.app/",
       view_padetha: "https://padetha.xz3tt.dev",
-      view_scanner: "https://github.com/Irrfan47/Web-Application-Vulnerability-Scanner",
-      download_cv: "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf"
+      view_scanner: "https://github.com/Irrfan47/Web-Application-Vulnerability-Scanner"
     };
-
-    if (specialUrls[option.value]) {
-      window.open(specialUrls[option.value], "_blank");
-      return;
-    }
 
     setIsTyping(true);
 
@@ -223,7 +242,7 @@ const Chatbot: React.FC = () => {
                       {message.text.includes("https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf") && (
                         <div className="mt-4 pt-4 border-t border-white/10">
                            <Button 
-                             onClick={() => window.open("https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf", "_blank")}
+                             onClick={downloadResume}
                              className="w-full bg-white text-black hover:bg-white/90 rounded-none font-mono text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 group h-11 transition-all active:translate-x-1 active:translate-y-1"
                            >
                              <Sparkles className="w-3.5 h-3.5" />
