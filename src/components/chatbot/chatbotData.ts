@@ -13,12 +13,12 @@ export interface ChatStep {
 export const chatbotKnowledge: Record<string, ChatStep> = {
   start: {
     id: "start",
-    message: "Hi! I'm Irrfan's virtual assistant. How can I help you today?",
+    message: "Hi! I'm Kaung Khant's virtual assistant. How can I help you today?",
     options: [
       { label: "🚀 View Projects", value: "projects", nextStep: "projects" },
       { label: "🛠️ Check Skills", value: "skills", nextStep: "skills" },
       { label: "📄 Get Resume", value: "resume", nextStep: "resume" },
-      { label: "☕ About Irrfan", value: "about", nextStep: "about" },
+      { label: "☕ About Kaung Khant", value: "about", nextStep: "about" },
     ],
   },
   projects: {
@@ -97,7 +97,7 @@ export const chatbotKnowledge: Record<string, ChatStep> = {
   },
   about: {
     id: "about",
-    message: "I'm a full-stack developer with a passion for clean code and unique aesthetics (like this Nothing OS design!). Based in Myanmar.",
+    message: "I'm a full-stack developer (3+ years) with a passion for clean code and premium aesthetics. Previously Intern at Nurkamal Network & AMSA Officer.",
     options: [
       { label: "📧 Contact Me", value: "contact", nextStep: "contact" },
       { label: "⬅️ Back", value: "back", nextStep: "start" },
@@ -105,7 +105,7 @@ export const chatbotKnowledge: Record<string, ChatStep> = {
   },
   contact: {
     id: "contact",
-    message: "You can reach me at irrfan47@example.com or find me on LinkedIn and GitHub.",
+    message: "You can reach me at kaungkhant12359@gmail.com or find me on LinkedIn and GitHub.",
     options: [
       { label: "⬅️ Back", value: "back", nextStep: "start" },
     ],

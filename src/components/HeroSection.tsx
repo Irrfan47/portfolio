@@ -39,7 +39,10 @@ const HeroSection = () => {
     const resumeUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf";
 
     try {
-      const response = await fetch(resumeUrl);
+      const response = await fetch(resumeUrl, {
+        mode: 'cors',
+        cache: 'no-cache'
+      });
       if (!response.ok) throw new Error('Network response was not ok');
 
       const blob = await response.blob();
@@ -52,7 +55,9 @@ const HeroSection = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Download failed:", error);
+      console.error("Download failed, falling back to direct link:", error);
+      // Fallback: Open in new tab if fetch/blob fails (CORS issue)
+      window.open(resumeUrl, '_blank');
     }
   };
 
@@ -183,7 +188,7 @@ const HeroSection = () => {
                 animate={{ opacity: isLoading ? 0 : 1 }}
                 transition={{ duration: 0.5 }}
                 onLoad={() => setIsLoading(false)}
-                src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.jpg"
+                src="https://myprojectstorage47.blob.core.windows.net/portfoliodocs/profile.webp"
                 alt="Kaung Khant Mg Mg - Full Stack Web Developer based in Yangon"
                 className="w-full h-full object-cover object-[50%_25%]"
                 {...({ fetchpriority: "high" } as any)}

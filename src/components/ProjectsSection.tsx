@@ -53,6 +53,7 @@ const ProjectsSection = () => {
                     src={project.screenshots[0]}
                     alt={`${project.name} Application Preview`}
                     className="w-full h-full object-cover grayscale"
+                    loading="lazy"
                   />
                 </div>
 

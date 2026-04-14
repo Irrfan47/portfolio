@@ -80,7 +80,10 @@ const Chatbot: React.FC = () => {
   const downloadResume = async () => {
     const resumeUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf";
     try {
-      const response = await fetch(resumeUrl);
+      const response = await fetch(resumeUrl, {
+        mode: 'cors',
+        cache: 'no-cache'
+      });
       if (!response.ok) throw new Error('Network response was not ok');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -92,7 +95,9 @@ const Chatbot: React.FC = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Download failed:", error);
+      console.error("Download failed, falling back to direct link:", error);
+      // Fallback: Open in new tab if fetch/blob fails
+      window.open(resumeUrl, '_blank');
     }
   };
 

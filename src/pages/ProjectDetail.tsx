@@ -138,7 +138,7 @@ const ProjectDetail = () => {
                   <Terminal className="w-4 h-4" />
                   <span>cat README.md</span>
                 </div>
-                <p className="text-foreground leading-relaxed">
+                <p className="text-foreground leading-relaxed whitespace-pre-wrap">
                   {project.fullDescription}
                 </p>
               </div>
