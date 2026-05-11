@@ -185,7 +185,7 @@ const Chatbot: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-display text-[13px] tracking-widest text-white uppercase">OS_ASSISTANT v2.2</h3>
+                  <h3 className="font-display text-[13px] tracking-widest text-white uppercase">OS_ASSISTANT v3.0</h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#f00] led-active"></div>
                     <span className="text-[9px] text-white/50 tracking-system font-mono uppercase">Neural Link Stable</span>
