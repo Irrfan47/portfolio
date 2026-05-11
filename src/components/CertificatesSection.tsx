@@ -9,7 +9,7 @@ const certificates = [
     credentialId: "CREDLY-IBM",
     status: "VALID",
     link: "https://www.credly.com/badges/63c5f77b-830b-41e6-9688-796cdb68fea8/public_url",
-    image: "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/IBM.jpg",
+    image: "/optimized_images/IBM.webp",
   },
   {
     name: "5G Pioneers Program",
@@ -18,7 +18,7 @@ const certificates = [
     credentialId: "CREDLY-ERICSSON",
     status: "VALID",
     link: "https://www.credly.com/badges/f060939f-4610-43a7-9088-a14118231d80/public_url",
-    image: "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/ERICSSON.jpeg",
+    image: "/optimized_images/ERICSSON.webp",
   },
 ];
 

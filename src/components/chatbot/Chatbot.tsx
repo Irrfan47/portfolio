@@ -78,7 +78,7 @@ const Chatbot: React.FC = () => {
   };
 
   const downloadResume = async () => {
-    const resumeUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf";
+    const resumeUrl = "/optimized_images/Resume.pdf";
     try {
       const response = await fetch(resumeUrl, {
         mode: 'cors',
@@ -243,7 +243,7 @@ const Chatbot: React.FC = () => {
                       </div>
 
                       {/* Dynamic Resume Button */}
-                      {message.text.includes("https://myprojectstorage47.blob.core.windows.net/portfoliodocs/Resume.pdf") && (
+                      {message.text.includes("/optimized_images/Resume.pdf") && (
                         <div className="mt-4 pt-4 border-t border-white/10">
                            <Button 
                              onClick={downloadResume}

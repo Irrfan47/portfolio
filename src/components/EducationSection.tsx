@@ -24,7 +24,7 @@ const education = [
 const EducationSection = () => {
   const [showGradPhoto, setShowGradPhoto] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const gradPhotoUrl = "https://myprojectstorage47.blob.core.windows.net/portfoliodocs/graduate_photo.JPG";
+  const gradPhotoUrl = "/optimized_images/graduate_photo.webp";
 
   const preloadImage = () => {
     const img = new Image();
@@ -150,7 +150,7 @@ const EducationSection = () => {
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-nothing-red animate-pulse" />
                   <span className="font-mono text-xs text-muted-foreground tracking-widest uppercase">
-                    IMG_GRADUATION_2025.JPG
+                    Graduation Image
                   </span>
                 </div>
                 <button
