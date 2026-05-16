@@ -6,11 +6,44 @@
  * Usage: node prerender.mjs  (called automatically by `npm run build`)
  */
 
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 import { createServer } from "node:http";
 import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from "node:fs";
 import { resolve, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { platform } from "node:os";
+
+// --- Cross-platform Chrome/Chromium path detection ---
+function findChrome() {
+  const os = platform();
+
+  if (os === "win32") {
+    const windowsPaths = [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      process.env.LOCALAPPDATA + "\\Google\\Chrome\\Application\\chrome.exe",
+    ];
+    return windowsPaths.find(existsSync) ?? null;
+  }
+
+  if (os === "linux") {
+    const linuxPaths = [
+      "/usr/bin/google-chrome",
+      "/usr/bin/google-chrome-stable",
+      "/usr/bin/chromium",
+      "/usr/bin/chromium-browser",
+      "/snap/bin/chromium",
+      "/usr/lib/chromium-browser/chromium-browser",
+    ];
+    return linuxPaths.find(existsSync) ?? null;
+  }
+
+  if (os === "darwin") {
+    return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+  }
+
+  return null;
+}
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const DIST_DIR = resolve(__dirname, "dist");
@@ -91,10 +124,22 @@ async function main() {
 
   const server = await startServer();
 
+  const chromePath = findChrome();
+  if (chromePath) {
+    console.log(`  ✓ Using system Chrome: ${chromePath}`);
+  } else {
+    console.warn(
+      "\n⚠️  No system Chrome/Chromium found. Skipping pre-render.\n" +
+      "   Install Chrome on the server: sudo apt-get install -y google-chrome-stable\n" +
+      "   The site will still work but pages won't be pre-rendered for SEO.\n"
+    );
+    server.close();
+    return;
+  }
+
   const browser = await puppeteer.launch({
     headless: true,
-    // Use system Chrome — avoids puppeteer's Chromium auto-download
-    executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    executablePath: chromePath,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
