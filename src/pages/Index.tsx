@@ -13,7 +13,11 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const [bootComplete, setBootComplete] = useState(() => {
-    return sessionStorage.getItem("system_booted") === "true";
+    // Skip boot animation for search engine crawlers so they see real content
+    const isBot = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|facebookexternalhit|twitterbot/i.test(
+      navigator.userAgent
+    );
+    return isBot || sessionStorage.getItem("system_booted") === "true";
   });
   const location = useLocation();
 
