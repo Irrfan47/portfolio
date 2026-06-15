@@ -30,11 +30,11 @@ if (empty($name) || empty($email) || empty($message)) {
 
 // ⚠️ Load Resend API Key from environment or hardcode it securely on the server
 // You can define this in your aaPanel environment or replace it here directly
-$resendApiKey = getenv('RESEND_API_KEY') ?: 're_YOUR_ACTUAL_API_KEY';
+$resendApiKey = getenv('RESEND_API_KEY') ?: 're_HCSxqDr9_6t2uPUYWhGt5f7NV3umJiGXh';
 
 $payload = [
     "from" => "Portfolio Contact <onboarding@resend.dev>", // Or your verified domain email
-    "to" => "your_destination_email@example.com", // Your personal email to receive notifications
+    "to" => "kaungkhant12359@gmail.com", // Your personal email to receive notifications
     "reply_to" => "$name <$email>",
     "subject" => $subject,
     "html" => "
@@ -51,6 +51,7 @@ $ch = curl_init('https://api.resend.com/emails');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Bypass local SSL certificate verification issues
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     'Authorization: Bearer ' . $resendApiKey
@@ -58,11 +59,22 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
 curl_close($ch);
+
+if ($response === false) {
+    http_response_code(500);
+    echo json_encode(["error" => "CURL Error: " . $curlError]);
+    exit();
+}
 
 if ($httpCode >= 200 && $httpCode < 300) {
     echo json_encode(["success" => true, "message" => "Email sent successfully"]);
 } else {
     http_response_code($httpCode);
-    echo json_encode(["error" => "Failed to send email through Resend API", "details" => json_decode($response)]);
+    echo json_encode([
+        "error" => "Failed to send email through Resend API",
+        "http_code" => $httpCode,
+        "details" => json_decode($response, true) ?: $response
+    ]);
 }
