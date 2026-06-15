@@ -217,7 +217,7 @@ const HeroSection = () => {
 
             <div className="font-mono text-sm text-foreground leading-relaxed">
               <TypeWriter
-                text="Full-stack developer with production experience shipping features used by government allocation systems, enterprise helpdesks, and consumer-facing web apps. I've worked across the stack — MERN stack, React/TypeScript frontends, PHP/Node backends, and MySQL schemas — with a focus on systems that handle real organizational complexity: role-based access, multi-step workflows, and audit trails."
+                text="Full-stack developer with production experience shipping features used by government allocation systems, enterprise helpdesks, and consumer-facing web apps. I've worked across the stack — MERN stack, React/TypeScript frontends, PHP/Node backends, and MySQL & PostgreSQL schemas — with a focus on systems that handle real organizational complexity: role-based access, multi-step workflows, and audit trails."
                 delay={0.8}
               />
             </div>
