@@ -285,7 +285,7 @@ const Chatbot: React.FC = () => {
               {/* Quick Commands */}
               {!isTyping && currentStep.options.length > 0 && (
                 <div className="mb-4">
-                   <div className="w-full flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                   <div className="w-full flex gap-2 overflow-x-auto pb-2">
                         {currentStep.options.map((option, idx) => (
                           <button
                             key={`${option.value}-${idx}`}

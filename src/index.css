@@ -82,6 +82,37 @@
     background: hsl(var(--nothing-red) / 0.3);
     color: hsl(var(--nothing-text));
   }
+
+  /* Custom Scrollbar Styles (Nothing OS Theme) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+    border-left: 1px solid hsl(var(--nothing-border));
+  }
+
+  ::-webkit-scrollbar-track:horizontal {
+    border-left: none;
+    border-top: 1px solid hsl(var(--nothing-border));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--nothing-border));
+    border-radius: 0px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--nothing-red));
+  }
+
+  /* Firefox Support */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--nothing-border)) hsl(var(--background));
+  }
 }
 
 @layer components {
