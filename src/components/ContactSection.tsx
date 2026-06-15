@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Send, Loader2, AlertCircle, CheckCircle } from "lucide-react";
-import emailjs from '@emailjs/browser';
-import { EMAILJS_CONFIG } from '../config/emailjs';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -34,26 +32,31 @@ const ContactSection = () => {
     setErrorMessage('');
 
     try {
-      emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-
-      await emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
+      const response = await fetch('/api/send.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
           message: formData.message,
-          to_email: EMAILJS_CONFIG.TO_EMAIL,
-        }
-      );
+          subject: `Portfolio Message from ${formData.name}`,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to send email');
+      }
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending email:', error);
       setSubmitStatus('error');
-      setErrorMessage('Error: Failed to send message. Please try again.');
+      setErrorMessage(error?.message || 'Error: Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
