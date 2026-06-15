@@ -161,8 +161,13 @@ async function main() {
 
       await page.goto(url, { waitUntil: "networkidle0", timeout: 30_000 });
 
-      // Give React 5 s to fully hydrate (handles boot sequences, lazy imports, etc.)
-      await new Promise((r) => setTimeout(r, 5_000));
+      // Wait for React to hydrate instead of arbitrary 5s delay
+      try {
+        await page.waitForSelector('[data-hydrated="true"]', { timeout: 15000 });
+      } catch {
+        // Fallback: wait 3s if the selector isn't found (e.g., 404 page)
+        await new Promise((r) => setTimeout(r, 3_000));
+      }
 
       const html = await page.content();
 

@@ -11,14 +11,23 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
+const checkBootStatus = (): boolean => {
+  const isBot = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|facebookexternalhit|twitterbot/i.test(
+    navigator.userAgent
+  );
+  if (isBot) return true;
+
+  const booted = localStorage.getItem("portfolio_booted");
+  const bootTime = localStorage.getItem("portfolio_boot_time");
+  if (booted && bootTime) {
+    const elapsed = Date.now() - parseInt(bootTime, 10);
+    return elapsed < 24 * 60 * 60 * 1000; // 24 hours
+  }
+  return false;
+};
+
 const Index = () => {
-  const [bootComplete, setBootComplete] = useState(() => {
-    // Skip boot animation for search engine crawlers so they see real content
-    const isBot = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|facebookexternalhit|twitterbot/i.test(
-      navigator.userAgent
-    );
-    return isBot || sessionStorage.getItem("system_booted") === "true";
-  });
+  const [bootComplete, setBootComplete] = useState(checkBootStatus);
   const location = useLocation();
 
   useEffect(() => {
@@ -66,7 +75,9 @@ const Index = () => {
       {!bootComplete && (
         <BootSequence onComplete={() => {
           setBootComplete(true);
-          sessionStorage.setItem("system_booted", "true");
+          localStorage.setItem("portfolio_booted", "true");
+          localStorage.setItem("portfolio_boot_time", Date.now().toString());
+          document.getElementById("root")?.setAttribute("data-hydrated", "true");
         }} />
       )}
 
@@ -76,6 +87,9 @@ const Index = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="min-h-screen bg-background relative"
+          onAnimationComplete={() => {
+            document.getElementById("root")?.setAttribute("data-hydrated", "true");
+          }}
         >
 
 

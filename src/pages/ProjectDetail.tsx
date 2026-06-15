@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ExternalLink, Terminal, Github, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, Terminal, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects } from "@/data/projects";
 import StatusBar from "@/components/StatusBar";
 import { useState, useEffect } from "react";
@@ -9,29 +9,10 @@ const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const project = projects.find((p) => p.id === id);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
-
-  useEffect(() => {
-    if (project?.screenshots) {
-      setImagesLoaded(false);
-      const imagePromises = project.screenshots.map((src) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
-
-      Promise.all(imagePromises)
-        .then(() => setImagesLoaded(true))
-        .catch(() => setImagesLoaded(true));
-    }
-  }, [project]);
 
   if (!project) {
     return (
@@ -223,15 +204,6 @@ const ProjectDetail = () => {
               {project.screenshots.length > 0 ? (
                 <div className="relative group">
                   <div className="aspect-video bg-muted border border-nothing-border overflow-hidden relative rounded-lg">
-                    {!imagesLoaded && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-card/50 backdrop-blur-sm z-20">
-                        <div className="flex items-center gap-2 text-nothing-red font-mono text-sm">
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span>LOADING_ASSETS...</span>
-                        </div>
-                      </div>
-                    )}
-
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={currentImageIndex}
@@ -241,7 +213,10 @@ const ProjectDetail = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
+                        onLoad={(e) => ((e.target as HTMLImageElement).style.opacity = "1")}
+                        style={{ opacity: 0, transition: "opacity 0.2s" }}
                         className="w-full h-full object-cover"
+                        loading={currentImageIndex === 0 ? "eager" : "lazy"}
                       />
                     </AnimatePresence>
 

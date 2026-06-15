@@ -45,7 +45,8 @@ const StatusBar = () => {
   }, []);
 
   useEffect(() => {
-    if (activeSection) {
+    // Only rewrite URL hash on the index page, not on /project/:id routes
+    if (activeSection && window.location.pathname === "/") {
       window.history.replaceState(null, "", `#${activeSection}`);
     }
   }, [activeSection]);

@@ -12,7 +12,7 @@ const bootLines = [
   "[OK] Authentication: DEVELOPER_MODE active",
   "[SYSTEM] Boot sequence complete.",
   "",
-  "WELCOME TO MY PORTFOLIO",
+  "WELCOME TO XZ3TT.DEV",
 ];
 
 interface BootSequenceProps {

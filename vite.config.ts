@@ -30,9 +30,11 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          ui: ["@radix-ui/react-slot", "lucide-react", "framer-motion"],
+        manualChunks: (id) => {
+          if (id.includes("framer-motion")) return "animation";
+          if (id.includes("@radix-ui")) return "radix";
+          if (id.includes("node_modules/react")) return "react-vendor";
+          if (id.includes("recharts") || id.includes("d3-")) return "charts";
         },
       },
     },

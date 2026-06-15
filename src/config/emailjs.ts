@@ -1,15 +1,8 @@
 export const EMAILJS_CONFIG = {
-    // Your EmailJS Service ID (found in EmailJS dashboard)
-    SERVICE_ID: 'service_tld2uff',
-
-    // Your EmailJS Template ID (found in EmailJS dashboard)
-    TEMPLATE_ID: 'template_7o5vlnt',
-
-    // Your EmailJS Public Key (found in EmailJS dashboard)
-    PUBLIC_KEY: 'kxqr77ix3Ut8iTI3v',
-
-    // Your email address where messages will be sent
-    TO_EMAIL: 'kaungkhant12359@gmail.com'
+    SERVICE_ID: import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
+    TEMPLATE_ID: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
+    PUBLIC_KEY: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '',
+    TO_EMAIL: import.meta.env.VITE_EMAILJS_TO_EMAIL || '',
 };
 
 // Template variables that will be sent to EmailJS

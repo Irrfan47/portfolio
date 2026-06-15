@@ -29,7 +29,7 @@ const skills = [
   { name: 'GitHub', icon: SiGithub, color: '#FFFFFF' },
 ];
 
-const techStack = [...skills, ...skills, ...skills, ...skills]; // Duplicate for seamless marquee
+const techStack = [...skills, ...skills]; // Double for seamless CSS marquee (translateX(-50%))
 
 const HeroSection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -217,7 +217,7 @@ const HeroSection = () => {
 
             <div className="font-mono text-sm text-foreground leading-relaxed">
               <TypeWriter
-                text="I'm a full-stack web developer based in Yangon, Myanmar with a Computer Science degree and 3+ years of professional experience. I bridge the gap between design and engineering — building products that are not just functional, but genuinely delightful to use. My background spans startup environments, agency work, and enterprise projects — giving me a versatile perspective on what makes great software. I care deeply about performance, accessibility, and clean code that scales."
+                text="Full-stack developer with production experience shipping features used by government allocation systems, enterprise helpdesks, and consumer-facing web apps. I've worked across the stack — MERN stack, React/TypeScript frontends, PHP/Node backends, and MySQL schemas — with a focus on systems that handle real organizational complexity: role-based access, multi-step workflows, and audit trails."
                 delay={0.8}
               />
             </div>
@@ -225,16 +225,16 @@ const HeroSection = () => {
             <div className="mt-6 pt-6 border-t border-nothing-border">
               <div className="flex flex-wrap gap-4">
                 <div className="font-mono text-xs">
-                  <span className="text-muted-foreground">YEARS_ACTIVE:</span>{" "}
-                  <span className="text-foreground">3+</span>
+                  <span className="text-muted-foreground">SYSTEMS_IN_PRODUCTION:</span>{" "}
+                  <span className="text-foreground">4</span>
                 </div>
                 <div className="font-mono text-xs">
-                  <span className="text-muted-foreground">PROJECTS_COMPLETED:</span>{" "}
-                  <span className="text-foreground">9+</span>
+                  <span className="text-muted-foreground">LIGHTHOUSE_SCORE:</span>{" "}
+                  <span className="text-foreground">98/100</span>
                 </div>
-                <div className="font-mono text-xs flex items-center gap-1">
-                  <span className="text-muted-foreground">COFFEE_CONSUMED:</span>
-                  <span className="text-nothing-red text-lg leading-none transform translate-y-[1px]">∞</span>
+                <div className="font-mono text-xs">
+                  <span className="text-muted-foreground">LARGEST_USERBASE:</span>{" "}
+                  <span className="text-foreground">500+ concurrent</span>
                 </div>
               </div>
             </div>

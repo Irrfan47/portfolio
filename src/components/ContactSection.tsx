@@ -258,12 +258,12 @@ const ContactSection = () => {
                   <span className="text-emerald-400">OPEN FOR WORK</span>
                 </div>
                 <div className="flex items-center justify-between font-mono text-xs">
-                  <span className="text-muted-foreground">RESPONSE_TIME</span>
-                  <span className="text-foreground">&lt; 24h</span>
+                  <span className="text-muted-foreground">PREFERRED_STACK</span>
+                  <span className="text-foreground">React / TypeScript / Node.js</span>
                 </div>
                 <div className="flex items-center justify-between font-mono text-xs">
-                  <span className="text-muted-foreground">TIMEZONE</span>
-                  <span className="text-foreground">UTC+6:30</span>
+                  <span className="text-muted-foreground">WORK_MODE</span>
+                  <span className="text-foreground">Remote / On-site</span>
                 </div>
               </div>
             </div>

@@ -29,6 +29,7 @@ const Chatbot: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const chatAreaRef = useRef<HTMLDivElement>(null);
+  const chatHistoryRef = useRef<{role: "user" | "model", parts: {text: string}[]}[]>([]);
 
   useEffect(() => {
     if (chatAreaRef.current) {
@@ -65,14 +66,19 @@ const Chatbot: React.FC = () => {
     setMessages((prev) => [...prev, userMessage]);
     setIsTyping(true);
 
-    const history = [...messages, userMessage]
-      .filter((m, idx) => !(idx === 0 && m.sender === "bot"))
-      .map(m => ({
-        role: m.sender === "user" ? "user" as const : "model" as const,
-        parts: [{ text: m.text }]
-      }));
+    // Incrementally append to the ref instead of rebuilding from messages
+    chatHistoryRef.current = [
+      ...chatHistoryRef.current,
+      { role: "user", parts: [{ text: userText }] },
+    ];
 
-    const aiResponse = await getGeminiResponse(userText, history);
+    const aiResponse = await getGeminiResponse(userText, chatHistoryRef.current);
+
+    chatHistoryRef.current = [
+      ...chatHistoryRef.current,
+      { role: "model", parts: [{ text: aiResponse }] },
+    ];
+
     setIsTyping(false);
     addBotMessage(aiResponse);
   };
@@ -132,13 +138,16 @@ const Chatbot: React.FC = () => {
         setCurrentStep(nextStep);
       }, 600);
     } else {
-      const history = [...messages, userMessage]
-        .filter((m, idx) => !(idx === 0 && m.sender === "bot"))
-        .map(m => ({
-          role: m.sender === "user" ? "user" as const : "model" as const,
-          parts: [{ text: m.text }]
-        }));
-      const aiResponse = await getGeminiResponse(option.label, history);
+      // Use the ref-based history instead of rebuilding
+      chatHistoryRef.current = [
+        ...chatHistoryRef.current,
+        { role: "user", parts: [{ text: option.label }] },
+      ];
+      const aiResponse = await getGeminiResponse(option.label, chatHistoryRef.current);
+      chatHistoryRef.current = [
+        ...chatHistoryRef.current,
+        { role: "model", parts: [{ text: aiResponse }] },
+      ];
       setIsTyping(false);
       addBotMessage(aiResponse);
     }
@@ -156,6 +165,7 @@ const Chatbot: React.FC = () => {
     setCurrentStep(chatbotKnowledge.start);
     setInputValue("");
     setIsTyping(false);
+    chatHistoryRef.current = [];
   };
 
   return (

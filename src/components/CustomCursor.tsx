@@ -15,8 +15,8 @@ const CustomCursor = () => {
   const smoothY = useSpring(mouseY, { stiffness: 500, damping: 28 });
 
   useEffect(() => {
-    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!isFinePointer) return;
+    const mql = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (!mql.matches) return;
 
     const updatePosition = (e: MouseEvent) => {
       mouseX.set(e.clientX);
@@ -31,14 +31,25 @@ const CustomCursor = () => {
       setIsHovering(!!isHoverable);
     };
 
+    const handleMediaChange = (e: MediaQueryListEvent) => {
+      if (!e.matches) setIsVisible(false);
+    };
+
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    mql.addEventListener("change", handleMediaChange);
     window.addEventListener("mousemove", updatePosition);
     window.addEventListener("mouseover", checkHoverState);
-    document.addEventListener("mouseleave", () => setIsVisible(false));
-    document.addEventListener("mouseenter", () => setIsVisible(true));
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
+      mql.removeEventListener("change", handleMediaChange);
       window.removeEventListener("mousemove", updatePosition);
       window.removeEventListener("mouseover", checkHoverState);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
     };
   }, [isVisible, mouseX, mouseY]);
 
