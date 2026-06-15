@@ -34,7 +34,7 @@ $resendApiKey = getenv('RESEND_API_KEY') ?: 're_HCSxqDr9_6t2uPUYWhGt5f7NV3umJiGX
 
 $payload = [
     "from" => "Portfolio Contact <onboarding@resend.dev>", // Or your verified domain email
-    "to" => "kaungkhant12359@gmail.com", // Your personal email to receive notifications
+    "to" => "kaung.mg@student.aiu.edu.my", // Your personal email to receive notifications
     "reply_to" => "$name <$email>",
     "subject" => $subject,
     "html" => "
