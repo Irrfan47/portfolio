@@ -33,8 +33,8 @@ if (empty($name) || empty($email) || empty($message)) {
 $resendApiKey = getenv('RESEND_API_KEY') ?: 're_HCSxqDr9_6t2uPUYWhGt5f7NV3umJiGXh';
 
 $payload = [
-    "from" => "Portfolio Contact <onboarding@resend.dev>", // Or your verified domain email
-    "to" => "kaung.mg@student.aiu.edu.my", // Your personal email to receive notifications
+    "from" => "Portfolio Contact <contact@procurement.xz3tt.dev>", // Using your verified subdomain
+    "to" => "kaungkhant12359@gmail.com", // Your personal email to receive notifications
     "reply_to" => "$name <$email>",
     "subject" => $subject,
     "html" => "
