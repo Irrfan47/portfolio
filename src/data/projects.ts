@@ -14,6 +14,25 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "fleet-management-system",
+    name: "Sistem Pengurusan Armada (Fleet Management System)",
+    version: "v1.0.0",
+    status: "STABLE",
+    description: "Enterprise fleet management system with role-based dashboard, vehicle tracking, driver allocation, and automated compliance alerts.",
+    fullDescription: "State-of-the-art secure fleet management platform designed for organizational logistics tracking. Features comprehensive vehicle lifecycles, booking workflows with checkout/checkin validations, compliance document expiry alerts, and advanced cybersecurity protections (persistent user lockouts on 5 failed attempts, API security headers, environment-scoped demo access, and strict rate limits).\n\nChallenge: Securing the authentication pipeline against distributed password-guessing and injection attacks while maintaining an accessible development sandbox.\nSolution: Implemented database-level user locking paired with unified error translations to counter brute-force tactics. Designed a dedicated SecureHeaders PHP middleware configuring restrictive Content-Security-Policies, X-Frame-Options, and HSTS. Constructed a conditional compilation process using Vite variables to completely hide developer credentials in production builds.",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "PHP", "Laravel", "MySQL", "Sanctum"],
+    screenshots: [
+      "/optimized_images/fleet1.webp",
+      "/optimized_images/fleet2.webp",
+      "/optimized_images/fleet3.webp",
+      "/optimized_images/fleet4.webp",
+      "/optimized_images/fleet5.webp",
+      "/optimized_images/fleet6.webp"
+    ],
+    sourceCode: "https://github.com/Irrfan47/Fleet_Management_System_Bolt",
+    featured: true
+  },
+  {
     id: "filmophia",
     name: "Filmophia",
     version: "v1.0.0",

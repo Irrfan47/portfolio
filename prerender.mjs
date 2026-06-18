@@ -53,6 +53,7 @@ const PORT = 5050;
 const ROUTES = [
   "/",
   "/404",
+  "/project/fleet-management-system",
   "/project/filmophia",
   "/project/padetha-rusk",
   "/project/budget-management-system",
