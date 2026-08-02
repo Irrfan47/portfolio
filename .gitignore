@@ -26,3 +26,4 @@ dist-ssr
 # Temporary folders
 /optimized_images/
 convert-to-webp.mjs
+.env

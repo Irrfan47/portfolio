@@ -207,7 +207,7 @@ const ProjectDetail = () => {
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={currentImageIndex}
-                        src={project.screenshots[currentImageIndex]}
+                        src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.screenshots[currentImageIndex]}`}
                         alt={`${project.name} screenshot ${currentImageIndex + 1}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

@@ -50,7 +50,7 @@ const ProjectsSection = () => {
                 {/* X-Ray Background */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
                   <img
-                    src={project.screenshots[0]}
+                    src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.screenshots[0]}`}
                     alt={`${project.name} Application Preview`}
                     className="w-full h-full object-cover grayscale"
                     loading="lazy"

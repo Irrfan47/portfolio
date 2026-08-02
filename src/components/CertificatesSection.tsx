@@ -65,7 +65,7 @@ const CertificatesSection = () => {
                 {/* X-Ray Background */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
                   <img
-                    src={cert.image}
+                    src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${cert.image}`}
                     alt={`${cert.issuer} - ${cert.name} Verified Certificate`}
                     className="w-full h-full object-cover grayscale"
                   />

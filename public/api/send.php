@@ -28,23 +28,41 @@ if (empty($name) || empty($email) || empty($message)) {
     exit();
 }
 
-// ⚠️ Load Resend API Key from environment or hardcode it securely on the server
-// You can define this in your aaPanel environment or replace it here directly
-$resendApiKey = getenv('RESEND_API_KEY') ?: 're_HCSxqDr9_6t2uPUYWhGt5f7NV3umJiGXh';
+// Helper to load .env variables
+function loadEnv($path) {
+    if (!file_exists($path)) return;
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        if (strpos($line, '=') === false) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+        if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
+            putenv("{$name}={$value}");
+            $_ENV[$name] = $value;
+            $_SERVER[$name] = $value;
+        }
+    }
+}
+
+// Load env values
+loadEnv(__DIR__ . '/../../.env');
+
+$resendApiKey = getenv('RESEND_API_KEY');
 
 $payload = [
-    "from" => "Portfolio Contact <contact@procurement.xz3tt.dev>", // Using your verified subdomain
-    "to" => "kaungkhant12359@gmail.com", // Your personal email to receive notifications
+    "to" => "kaungkhant12359@gmail.com",
     "reply_to" => "$name <$email>",
-    "subject" => $subject,
-    "html" => "
-        <h3>New Message from Portfolio Website</h3>
-        <p><strong>Name:</strong> " . htmlspecialchars($name) . "</p>
-        <p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>
-        <p><strong>Subject:</strong> " . htmlspecialchars($subject) . "</p>
-        <p><strong>Message:</strong></p>
-        <p>" . nl2br(htmlspecialchars($message)) . "</p>
-    "
+    "template" => [
+        "id" => "05744e3e-c8f3-47ad-afe0-9de2dba890c4",
+        "variables" => [
+            "name" => $name,
+            "email" => $email,
+            "subject" => $subject,
+            "message" => $message
+        ]
+    ]
 ];
 
 $ch = curl_init('https://api.resend.com/emails');

@@ -26,7 +26,7 @@ const BootSequence = ({ onComplete }: BootSequenceProps) => {
   useEffect(() => {
     // Pre-load critical assets during boot
     const img = new Image();
-    img.src = "/optimized_images/profile.webp";
+    img.src = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/profile.webp`;
 
     const timer = setInterval(() => {
       setVisibleLines((prev) => {

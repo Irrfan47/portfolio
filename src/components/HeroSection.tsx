@@ -36,7 +36,7 @@ const HeroSection = () => {
 
   const handleDownloadResume = async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const resumeUrl = "/optimized_images/Resume.pdf";
+    const resumeUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/Resume.pdf`;
 
     try {
       const response = await fetch(resumeUrl, {
@@ -114,7 +114,7 @@ const HeroSection = () => {
 
                 {/* Download Resume Button */}
                 <a
-                  href="/optimized_images/Resume.pdf"
+                  href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/Resume.pdf`}
                   onClick={handleDownloadResume}
                   className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-red text-nothing-red font-mono text-xs hover:bg-nothing-red hover:text-background transition-colors hoverable group shadow-[2px_2px_0px_0px_rgba(255,51,51,0.2)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                 >
@@ -188,7 +188,7 @@ const HeroSection = () => {
                 animate={{ opacity: isLoading ? 0 : 1 }}
                 transition={{ duration: 0.5 }}
                 onLoad={() => setIsLoading(false)}
-                src="/optimized_images/profile.webp"
+                src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/profile.webp`}
                 alt="Kaung Khant Mg Mg - Full Stack Web Developer based in Yangon"
                 className="w-full h-full object-cover object-[50%_25%]"
                 {...({ fetchpriority: "high" } as any)}

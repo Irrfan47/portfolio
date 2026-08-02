@@ -32,7 +32,7 @@ const ContactSection = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/send.php', {
+      const response = await fetch(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/api/send.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -211,4 +211,24 @@ export const projects: Project[] = [
     liveUrl: "https://kaung.xz3tt.dev",
     featured: true
   },
+  {
+    id: "classical-architect-landing-website",
+    name: "Classical Architect Landing Website",
+    version: "v1.0.0",
+    status: "LIVE",
+    description: "Responsive showcase site with secure admin control panel, PHP backend, and MySQL database for real-time content and image updates.",
+    fullDescription: "A premium digital presence for classical architecture portfolios. Features a modern landing page combined with an administrative dashboard for full content and image management.\n\nChallenge: Creating an intuitive content management interface that allows dynamic layouts without sacrificing frontend performance or security.\nSolution: Developed a secure login page and comprehensive user management system alongside PHP endpoints to serve dynamic site configurations. Leveraged React and TypeScript on the client side for smooth rendering, allowing administrators to update descriptions and manage site photos in real-time.",
+    techStack: ["React", "TypeScript", "PHP", "MySQL", "Tailwind CSS"],
+    screenshots: [
+      "/optimized_images/classical_1.webp",
+      "/optimized_images/classical_2.webp",
+      "/optimized_images/classical_3.webp",
+      "/optimized_images/classical_4.webp",
+      "/optimized_images/classical_5.webp",
+      "/optimized_images/classical_6.webp"
+    ],
+    sourceCode: "https://github.com/Irrfan47/classical-architect-landing",
+    featured: true
+  },
 ];
+

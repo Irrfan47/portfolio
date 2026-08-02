@@ -84,7 +84,7 @@ const Chatbot: React.FC = () => {
   };
 
   const downloadResume = async () => {
-    const resumeUrl = "/optimized_images/Resume.pdf";
+    const resumeUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/Resume.pdf`;
     try {
       const response = await fetch(resumeUrl, {
         mode: 'cors',

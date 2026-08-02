@@ -24,7 +24,7 @@ const education = [
 const EducationSection = () => {
   const [showGradPhoto, setShowGradPhoto] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const gradPhotoUrl = "/optimized_images/graduate_photo.webp";
+  const gradPhotoUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/graduate_photo.webp`;
 
   const preloadImage = () => {
     const img = new Image();
