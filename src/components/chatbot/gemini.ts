@@ -3,7 +3,7 @@ export const getGeminiResponse = async (
   chatHistory: { role: "user" | "model"; parts: { text: string }[] }[]
 ) => {
   try {
-    const response = await fetch(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/api/chat.php`, {
+    const response = await fetch("https://dawn-waterfall-a302.kaungkhant12359.workers.dev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
