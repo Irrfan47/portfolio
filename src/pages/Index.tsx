@@ -11,6 +11,8 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
+import { getHomepageSEO, updateDOMSEO } from "@/utils/seo";
+
 const checkBootStatus = (): boolean => {
   const isBot = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|facebookexternalhit|twitterbot/i.test(
     navigator.userAgent
@@ -29,6 +31,10 @@ const checkBootStatus = (): boolean => {
 const Index = () => {
   const [bootComplete, setBootComplete] = useState(checkBootStatus);
   const location = useLocation();
+
+  useEffect(() => {
+    updateDOMSEO(getHomepageSEO());
+  }, []);
 
   useEffect(() => {
     if (bootComplete && location.hash) {

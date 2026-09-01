@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { getNotFoundSEO, updateDOMSEO } from "@/utils/seo";
 
 const NotFound = () => {
+  useEffect(() => {
+    updateDOMSEO(getNotFoundSEO());
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Effects */}

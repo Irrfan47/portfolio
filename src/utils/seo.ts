@@ -52,11 +52,6 @@ export function getProjectSEO(project: Project): ProjectSEO {
   if (project.sourceCode) {
     baseSchema["codeRepository"] = project.sourceCode;
   }
-  if (schemaType === "SoftwareApplication" || schemaType === "WebApplication") {
-    baseSchema["applicationCategory"] = "DeveloperApplication";
-    baseSchema["operatingSystem"] = "Any";
-  }
-
   return {
     title,
     description,
@@ -65,4 +60,96 @@ export function getProjectSEO(project: Project): ProjectSEO {
     schemaType,
     schemaJson: baseSchema,
   };
+}
+
+export interface PageSEO {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogImage: string;
+  ogType?: string;
+}
+
+export function getHomepageSEO(): PageSEO {
+  return {
+    title: "Kaung Khant Mg Mg | Full Stack Developer & UI/UX Specialist",
+    description: "Kaung Khant Mg Mg is a Full Stack Developer specializing in React, TypeScript, and high-performance scalable systems. Explore projects, technical skills, and professional experience.",
+    canonicalUrl: `${SITE_ORIGIN}/`,
+    ogImage: `${SITE_ORIGIN}/og-preview.png`,
+    ogType: "website"
+  };
+}
+
+export function getNotFoundSEO(): PageSEO {
+  return {
+    title: "404: Page Not Found | Kaung Khant Mg Mg",
+    description: "The requested page does not exist on Kaung Khant Mg Mg's portfolio.",
+    canonicalUrl: `${SITE_ORIGIN}/404`,
+    ogImage: `${SITE_ORIGIN}/og-preview.png`,
+    ogType: "website"
+  };
+}
+
+export function updateDOMSEO(seo: {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogImage: string;
+  ogType?: string;
+  schemaJson?: object;
+}) {
+  document.title = seo.title;
+
+  const updateMeta = (selector: string, attr: string, value: string) => {
+    let el = document.querySelector(selector);
+    if (!el) {
+      el = document.createElement("meta");
+      const [attrName, attrVal] = selector.replace(/^meta\[|\]$/g, "").split("=");
+      if (attrName && attrVal) {
+        el.setAttribute(attrName, attrVal.replace(/['"]/g, ""));
+      }
+      document.head.appendChild(el);
+    }
+    el.setAttribute(attr, value);
+  };
+
+  const updateLink = (rel: string, href: string) => {
+    let el = document.querySelector(`link[rel="${rel}"]`);
+    if (!el) {
+      el = document.createElement("link");
+      el.setAttribute("rel", rel);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("href", href);
+  };
+
+  updateMeta('meta[name="description"]', "content", seo.description);
+  updateLink("canonical", seo.canonicalUrl);
+
+  // Open Graph
+  updateMeta('meta[property="og:type"]', "content", seo.ogType || "website");
+  updateMeta('meta[property="og:url"]', "content", seo.canonicalUrl);
+  updateMeta('meta[property="og:title"]', "content", seo.title);
+  updateMeta('meta[property="og:description"]', "content", seo.description);
+  updateMeta('meta[property="og:image"]', "content", seo.ogImage);
+
+  // Twitter
+  updateMeta('meta[name="twitter:card"]', "content", "summary_large_image");
+  updateMeta('meta[name="twitter:title"]', "content", seo.title);
+  updateMeta('meta[name="twitter:description"]', "content", seo.description);
+  updateMeta('meta[name="twitter:image"]', "content", seo.ogImage);
+
+  // Project JSON-LD Schema
+  let script = document.querySelector('script[data-project-schema="true"]') as HTMLScriptElement | null;
+  if (seo.schemaJson) {
+    if (!script) {
+      script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.setAttribute("data-project-schema", "true");
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(seo.schemaJson);
+  } else if (script) {
+    script.remove();
+  }
 }

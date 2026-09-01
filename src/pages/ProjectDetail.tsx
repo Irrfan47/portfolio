@@ -2,32 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ExternalLink, Terminal, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects } from "@/data/projects";
-import { getProjectSEO } from "@/utils/seo";
+import { getProjectSEO, updateDOMSEO } from "@/utils/seo";
 import StatusBar from "@/components/StatusBar";
 import { useState, useEffect } from "react";
-
-const updateMetaTag = (selector: string, attribute: string, value: string) => {
-  let element = document.querySelector(selector);
-  if (!element) {
-    element = document.createElement("meta");
-    const [attrName, attrVal] = selector.replace(/^meta\[|\]$/g, "").split("=");
-    if (attrName && attrVal) {
-      element.setAttribute(attrName, attrVal.replace(/['"]/g, ""));
-    }
-    document.head.appendChild(element);
-  }
-  element.setAttribute(attribute, value);
-};
-
-const updateLinkTag = (rel: string, href: string) => {
-  let element = document.querySelector(`link[rel="${rel}"]`);
-  if (!element) {
-    element = document.createElement("link");
-    element.setAttribute("rel", rel);
-    document.head.appendChild(element);
-  }
-  element.setAttribute("href", href);
-};
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,32 +16,7 @@ const ProjectDetail = () => {
 
     if (project) {
       const seo = getProjectSEO(project);
-      document.title = seo.title;
-      updateMetaTag('meta[name="description"]', "content", seo.description);
-      updateLinkTag("canonical", seo.canonicalUrl);
-
-      // Open Graph
-      updateMetaTag('meta[property="og:type"]', "content", "website");
-      updateMetaTag('meta[property="og:url"]', "content", seo.canonicalUrl);
-      updateMetaTag('meta[property="og:title"]', "content", seo.title);
-      updateMetaTag('meta[property="og:description"]', "content", seo.description);
-      updateMetaTag('meta[property="og:image"]', "content", seo.ogImage);
-
-      // Twitter
-      updateMetaTag('meta[name="twitter:card"]', "content", "summary_large_image");
-      updateMetaTag('meta[name="twitter:title"]', "content", seo.title);
-      updateMetaTag('meta[name="twitter:description"]', "content", seo.description);
-      updateMetaTag('meta[name="twitter:image"]', "content", seo.ogImage);
-
-      // JSON-LD
-      let script = document.querySelector('script[data-project-schema="true"]') as HTMLScriptElement | null;
-      if (!script) {
-        script = document.createElement("script");
-        script.type = "application/ld+json";
-        script.setAttribute("data-project-schema", "true");
-        document.head.appendChild(script);
-      }
-      script.textContent = JSON.stringify(seo.schemaJson);
+      updateDOMSEO(seo);
     }
   }, [id, project]);
 

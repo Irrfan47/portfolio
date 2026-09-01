@@ -219,7 +219,7 @@ async function main() {
   }
 
   const projects = await loadProjects();
-  const { getProjectSEO } = await loadSEOUtils();
+  const seoUtils = await loadSEOUtils();
   console.log(`  ✓ Loaded ${projects.length} projects dynamically from src/data/projects.ts`);
 
   // Build routes dynamically from projects.ts
@@ -283,12 +283,18 @@ async function main() {
 
       let html = await page.content();
 
-      // If this is a project route, inject project-specific SEO into <head>
-      if (route.startsWith("/project/")) {
+      // Route-specific SEO injection
+      if (route === "/") {
+        const homepageSeo = seoUtils.getHomepageSEO();
+        html = injectProjectSEO(html, homepageSeo);
+      } else if (route === "/404") {
+        const notFoundSeo = seoUtils.getNotFoundSEO();
+        html = injectProjectSEO(html, notFoundSeo);
+      } else if (route.startsWith("/project/")) {
         const projectId = route.replace("/project/", "");
         const project = projects.find((p) => p.id === projectId);
         if (project) {
-          const seo = getProjectSEO(project);
+          const seo = seoUtils.getProjectSEO(project);
           html = injectProjectSEO(html, seo);
         }
       }
