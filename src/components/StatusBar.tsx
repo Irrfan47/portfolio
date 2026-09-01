@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Battery, Wifi, Signal, Home, Info, Folder, Mail } from "lucide-react";
 
@@ -6,6 +7,8 @@ const StatusBar = () => {
   const [time, setTime] = useState(new Date());
   const [scrollProgress, setScrollProgress] = useState(100);
   const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const sections = [
     { id: "home", label: "Home", icon: Home },
@@ -44,21 +47,19 @@ const StatusBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Only rewrite URL hash on the index page, not on /project/:id routes
-    if (activeSection && window.location.pathname === "/") {
-      window.history.replaceState(null, "", `#${activeSection}`);
-    }
-  }, [activeSection]);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80, // Offset for header
-        behavior: "smooth",
-      });
-      setActiveSection(id);
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      const element = document.getElementById(id);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80,
+          behavior: "smooth",
+        });
+        setActiveSection(id);
+      }
+    } else {
+      navigate(`/#${id}`);
     }
   };
 
@@ -94,13 +95,9 @@ const StatusBar = () => {
           {sections.map((section) => (
             <a
               key={section.id}
-              href={`#${section.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(section.id);
-                window.history.pushState(null, "", `#${section.id}`);
-              }}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${activeSection === section.id
+              href={`/#${section.id}`}
+              onClick={(e) => handleNavClick(section.id, e)}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${activeSection === section.id && location.pathname === "/"
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                 }`}

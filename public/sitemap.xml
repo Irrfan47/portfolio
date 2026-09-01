@@ -6,7 +6,7 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://portfolio.xz3tt.dev/</loc>
+    <loc>https://portfolio.xzett.me/</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,62 +14,62 @@
 
   <!-- Project Pages -->
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/filmophia</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/classical-architect-landing-website</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/padetha-rusk</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/fleet-management-system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/budget-management-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/filmophia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/allocation-management-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/padetha-rusk</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/helpdesk-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/budget-management-system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/equipment-management-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/allocation-management-system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/quotation-management-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/helpdesk-system</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio.xzett.me/project/equipment-management-system</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio.xzett.me/project/quotation-management-system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/web-app-vulnerability-scanner</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/web-app-vulnerability-scanner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/enterprise-management-system</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/enterprise-management-system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://portfolio.xz3tt.dev/project/personal-portfolio</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://portfolio.xzett.me/project/personal-portfolio</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

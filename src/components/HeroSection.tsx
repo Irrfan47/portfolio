@@ -36,29 +36,13 @@ const HeroSection = () => {
 
   const handleDownloadResume = async (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const resumeUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/Resume.pdf`;
-
-    try {
-      const response = await fetch(resumeUrl, {
-        mode: 'cors',
-        cache: 'no-cache'
-      });
-      if (!response.ok) throw new Error('Network response was not ok');
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = "Resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Download failed, falling back to direct link:", error);
-      // Fallback: Open in new tab if fetch/blob fails (CORS issue)
-      window.open(resumeUrl, '_blank');
-    }
+    const resumeUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/documents/Resume.pdf`;
+    const link = document.createElement('a');
+    link.href = resumeUrl;
+    link.download = 'Kaung_Khant_Mg_Mg_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -95,11 +79,15 @@ const HeroSection = () => {
                 &gt; Full Stack Developer. Available for hire.
               </p>
 
-              <h1 className="font-custom text-4xl sm:text-5xl lg:text-6xl text-foreground mb-6 leading-tight tracking-wide">
+              <h1 className="font-custom text-4xl sm:text-5xl lg:text-6xl text-foreground mb-3 leading-tight tracking-wide">
                 KAUNG KHANT
                 <br />
                 <span className="text-nothing-red">MG MG</span>
               </h1>
+
+              <h2 className="font-mono text-sm sm:text-base text-foreground/90 font-medium tracking-wide mb-6">
+                Full Stack Developer &amp; Web Architect
+              </h2>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
                 <div className="flex items-center gap-4">
@@ -114,7 +102,7 @@ const HeroSection = () => {
 
                 {/* Download Resume Button */}
                 <a
-                  href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/Resume.pdf`}
+                  href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/documents/Resume.pdf`}
                   onClick={handleDownloadResume}
                   className="inline-flex items-center gap-2 px-4 py-2 border border-nothing-red text-nothing-red font-mono text-xs hover:bg-nothing-red hover:text-background transition-colors hoverable group shadow-[2px_2px_0px_0px_rgba(255,51,51,0.2)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                 >
@@ -188,8 +176,10 @@ const HeroSection = () => {
                 animate={{ opacity: isLoading ? 0 : 1 }}
                 transition={{ duration: 0.5 }}
                 onLoad={() => setIsLoading(false)}
-                src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/optimized_images/profile.webp`}
+                src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/profile/profile.webp`}
                 alt="Kaung Khant Mg Mg - Full Stack Web Developer based in Yangon"
+                width={224}
+                height={224}
                 className="w-full h-full object-cover object-[50%_25%]"
                 {...({ fetchpriority: "high" } as any)}
                 // @ts-ignore - fetchPriority is supported in modern browsers

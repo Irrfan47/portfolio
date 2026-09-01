@@ -13,9 +13,9 @@ const Footer = () => {
       <div className="container px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <span className="font-display text-lg tracking-system">PORTFOLIO.XZ3TT.DEV</span>
+            <span className="font-display text-lg tracking-system">PORTFOLIO.XZETT.ME</span>
             <span className="font-mono text-xs text-muted-foreground">
-              v2.0.0
+              v2.0.26
             </span>
           </div>
 

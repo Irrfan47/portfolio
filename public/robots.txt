@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://portfolio.xz3tt.dev/sitemap.xml
+Sitemap: https://portfolio.xzett.me/sitemap.xml

@@ -2,8 +2,32 @@ import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ExternalLink, Terminal, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects } from "@/data/projects";
+import { getProjectSEO } from "@/utils/seo";
 import StatusBar from "@/components/StatusBar";
 import { useState, useEffect } from "react";
+
+const updateMetaTag = (selector: string, attribute: string, value: string) => {
+  let element = document.querySelector(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    const [attrName, attrVal] = selector.replace(/^meta\[|\]$/g, "").split("=");
+    if (attrName && attrVal) {
+      element.setAttribute(attrName, attrVal.replace(/['"]/g, ""));
+    }
+    document.head.appendChild(element);
+  }
+  element.setAttribute(attribute, value);
+};
+
+const updateLinkTag = (rel: string, href: string) => {
+  let element = document.querySelector(`link[rel="${rel}"]`);
+  if (!element) {
+    element = document.createElement("link");
+    element.setAttribute("rel", rel);
+    document.head.appendChild(element);
+  }
+  element.setAttribute("href", href);
+};
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +36,37 @@ const ProjectDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+
+    if (project) {
+      const seo = getProjectSEO(project);
+      document.title = seo.title;
+      updateMetaTag('meta[name="description"]', "content", seo.description);
+      updateLinkTag("canonical", seo.canonicalUrl);
+
+      // Open Graph
+      updateMetaTag('meta[property="og:type"]', "content", "website");
+      updateMetaTag('meta[property="og:url"]', "content", seo.canonicalUrl);
+      updateMetaTag('meta[property="og:title"]', "content", seo.title);
+      updateMetaTag('meta[property="og:description"]', "content", seo.description);
+      updateMetaTag('meta[property="og:image"]', "content", seo.ogImage);
+
+      // Twitter
+      updateMetaTag('meta[name="twitter:card"]', "content", "summary_large_image");
+      updateMetaTag('meta[name="twitter:title"]', "content", seo.title);
+      updateMetaTag('meta[name="twitter:description"]', "content", seo.description);
+      updateMetaTag('meta[name="twitter:image"]', "content", seo.ogImage);
+
+      // JSON-LD
+      let script = document.querySelector('script[data-project-schema="true"]') as HTMLScriptElement | null;
+      if (!script) {
+        script = document.createElement("script");
+        script.type = "application/ld+json";
+        script.setAttribute("data-project-schema", "true");
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(seo.schemaJson);
+    }
+  }, [id, project]);
 
   if (!project) {
     return (
@@ -50,6 +104,9 @@ const ProjectDetail = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="min-h-screen bg-background relative"
+        onAnimationComplete={() => {
+          document.getElementById("root")?.setAttribute("data-hydrated", "true");
+        }}
       >
 
 
@@ -90,6 +147,22 @@ const ProjectDetail = () => {
                     <span className="font-mono text-xs text-muted-foreground tracking-widest uppercase">
                       App_Details
                     </span>
+                    {project.company && (
+                      <div className="flex items-center gap-2 ml-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 shadow-sm">
+                        {project.company.logo && (
+                          <div className="w-4 h-4 flex items-center justify-center">
+                            <img
+                              src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.company.logo}`}
+                              alt={project.company.name}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        )}
+                        <span className="font-mono text-xs text-foreground/90 font-medium">
+                          {project.company.name}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <h1 className="font-custom text-2xl sm:text-4xl text-foreground tracking-wide">
                     {project.name}
@@ -103,7 +176,7 @@ const ProjectDetail = () => {
                   <span
                     className={`font-mono text-xs px-3 py-1 border ${project.status === "ACTIVE" || project.status === "LIVE"
                       ? "border-nothing-red text-nothing-red"
-                      : project.status === "BETA" || project.status === "FYP"
+                      : project.status === "BETA" || project.status === "FYP" || project.status === "IN_DEV" || project.status === "DEV"
                         ? "border-yellow-500 text-yellow-500"
                         : "border-emerald-400 text-emerald-400"
                       }`}
@@ -189,7 +262,7 @@ const ProjectDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="glass-panel p-6 sm:p-8"
+              className="glass-panel p-6 sm:p-8 mb-6"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-2 h-2 rounded-full bg-nothing-red" />
@@ -208,7 +281,7 @@ const ProjectDetail = () => {
                       <motion.img
                         key={currentImageIndex}
                         src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.screenshots[currentImageIndex]}`}
-                        alt={`${project.name} screenshot ${currentImageIndex + 1}`}
+                        alt={`${project.name} — project screenshot ${currentImageIndex + 1}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -253,6 +326,72 @@ const ProjectDetail = () => {
                 </div>
               )}
             </motion.div>
+
+            {/* Related Projects Section */}
+            {(() => {
+              const relatedList = (project.relatedProjectIds || [])
+                .map((relId) => projects.find((p) => p.id === relId))
+                .filter((p): p is typeof project => !!p && p.id !== project.id)
+                .slice(0, 3);
+
+              if (relatedList.length === 0) return null;
+
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="glass-panel p-6 sm:p-8"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-2 h-2 rounded-full bg-nothing-red" />
+                    <span className="font-mono text-xs text-muted-foreground tracking-widest uppercase">
+                      Related_Modules
+                    </span>
+                  </div>
+                  <h2 className="font-custom text-xl sm:text-2xl text-foreground tracking-wide mb-6">
+                    RELATED PROJECTS
+                  </h2>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {relatedList.map((relProject) => (
+                      <Link
+                        key={relProject.id}
+                        to={`/project/${relProject.id}`}
+                        className="block group"
+                      >
+                        <div className="glass-panel p-4 h-full flex flex-col justify-between border border-nothing-border hover:border-nothing-red/50 transition-all duration-300">
+                          <div className="aspect-video w-full bg-muted rounded overflow-hidden mb-3 border border-nothing-border/60">
+                            <img
+                              src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${relProject.screenshots[0]}`}
+                              alt={`${relProject.name} — project preview`}
+                              width={300}
+                              height={169}
+                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="font-mono text-sm font-medium text-foreground group-hover:text-nothing-red transition-colors line-clamp-1 mb-1">
+                              {relProject.name}
+                            </h3>
+                            <p className="font-mono text-xs text-muted-foreground line-clamp-2 mb-3">
+                              {relProject.description}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between pt-2 border-t border-nothing-border/50 font-mono text-[10px] text-muted-foreground">
+                            <span>{relProject.version}</span>
+                            <span className="text-nothing-red group-hover:translate-x-0.5 transition-transform">
+                              VIEW →
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })()}
           </div>
         </main>
       </motion.div>

@@ -15,6 +15,9 @@ const NotFound = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
+        onAnimationComplete={() => {
+          document.getElementById("root")?.setAttribute("data-hydrated", "true");
+        }}
         className="glass-panel p-8 md:p-12 max-w-lg w-full relative z-10 border border-nothing-red/30"
       >
         {/* Header Status */}

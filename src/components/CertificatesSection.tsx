@@ -9,7 +9,7 @@ const certificates = [
     credentialId: "CREDLY-IBM",
     status: "VALID",
     link: "https://www.credly.com/badges/63c5f77b-830b-41e6-9688-796cdb68fea8/public_url",
-    image: "/optimized_images/IBM.webp",
+    image: "/images/certificates/IBM.webp",
   },
   {
     name: "5G Pioneers Program",
@@ -18,7 +18,7 @@ const certificates = [
     credentialId: "CREDLY-ERICSSON",
     status: "VALID",
     link: "https://www.credly.com/badges/f060939f-4610-43a7-9088-a14118231d80/public_url",
-    image: "/optimized_images/ERICSSON.webp",
+    image: "/images/certificates/ERICSSON.webp",
   },
 ];
 
@@ -67,6 +67,9 @@ const CertificatesSection = () => {
                   <img
                     src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${cert.image}`}
                     alt={`${cert.issuer} - ${cert.name} Verified Certificate`}
+                    width={300}
+                    height={200}
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale"
                   />
                 </div>
