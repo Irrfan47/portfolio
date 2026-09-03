@@ -1,0 +1,131 @@
+# Kaung Khant Mg Mg - Full Stack Developer Portfolio
+
+> Kaung Khant Mg Mg is a Full Stack Developer and Web Architect specializing in React, TypeScript, PHP, Node.js, and high-performance web systems. He builds production enterprise applications, custom web solutions, and software security tools.
+
+## Identity & Contact Information
+- **Name:** Kaung Khant Mg Mg
+- **Role:** Full Stack Developer & Web Architect
+- **Location:** Remote / Yangon, Myanmar
+- **Availability:** Open for work (Remote / On-site)
+- **Portfolio Website:** https://portfolio.xzett.me
+- **GitHub:** https://github.com/Irrfan47
+- **LinkedIn:** https://www.linkedin.com/in/kaung-khant-mg-mg-26a98821a/
+- **Email:** kaungkhant12359@gmail.com
+
+## Professional Summary
+Full-stack developer with production experience shipping features used by government allocation systems, enterprise helpdesks, and consumer-facing web applications. Works across the full stack—MERN stack, React/TypeScript frontends, PHP/Node.js backends, and MySQL/MongoDB/PostgreSQL databases—with a primary focus on systems that handle real organizational complexity: role-based access control (RBAC), multi-step workflows, performance optimization, and audit trails.
+
+## Technical Skills & Stack
+- **Frontend Technologies:** React, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Bootstrap, Next.js, Vite, Framer Motion, Redux / React Query
+- **Backend Technologies:** Node.js, Express, PHP, Laravel, Python, Flask
+- **Databases & Cloud Services:** MySQL, MongoDB, Supabase, PostgreSQL
+- **DevOps, Security & Tools:** npm, Git, GitHub, RESTful APIs, System Security Analysis, Technical SEO, Core Web Vitals Optimization
+
+## Work Experience
+- **Freelance Web Developer** (Sep 2025 - Present)
+  - Optimized website load times by 40% using Vite code-splitting and automated image compression pipelines.
+  - Increased client SEO visibility by 50% through strict semantic HTML implementation and JSON-LD schema integration.
+  - Architected reusable React component systems, reducing development cycles by 30%.
+  - Direct client collaboration to translate complex business logic into scalable technical requirements.
+
+- **Fullstack Developer & IT Support Intern** at Nurkamal Network Sdn Bhd (Mar 2025 - Sep 2025)
+  - Built and deployed 5+ full-stack applications, improving internal workflow efficiency by 30%.
+  - Reduced API latency by 45% through database indexing and TanStack Query caching.
+  - Optimized IT infrastructure configuration, reducing setup time by 50% and system downtime by 25%.
+  - Implemented automated QA testing suites catching 20% more bugs prior to release.
+  - Configured high-availability network infrastructure for 50+ users across multiple server environments.
+
+- **Logistic, Event & Sport Unit Officer** at AIU Myanmar Student Association (AMSA) (Feb 2022 - Oct 2024)
+  - Managed logistics for 10+ major events serving 500+ students, streamlining planning overhead by 25%.
+  - Developed an automated equipment tracking sheet that reduced resource loss by 40%.
+
+## Education
+- **Bachelor of Computer Science**, Albukhary International University (2022 - 2025)
+  - **Status:** Completed
+  - **GPA:** 3.69 / 4.0
+  - **Focus:** Software Engineering, Web Technologies & Cyber Security
+- **High School Diploma**, B.E.H.S (4) Mingalar Taung Nyunt, Yangon, Myanmar (2009 - 2020)
+  - **Focus:** Science & Mathematics
+
+## Certifications
+- **Web Development Fundamentals** — IBM SkillsBuild (Issued Nov 21, 2025)
+  - Credly Badge: https://www.credly.com/badges/63c5f77b-830b-41e6-9688-796cdb68fea8/public_url
+- **5G Pioneers Program** — ERICSSON (Issued Mar 22, 2024)
+  - Credly Badge: https://www.credly.com/badges/f060939f-4610-43a7-9088-a14118231d80/public_url
+
+## Projects
+
+### Live & Featured Projects
+
+- [Allocation Management System (Sistem Pengurusan Peruntukan Kedah)](https://portfolio.xzett.me/project/allocation-management-system)
+  - **Live URL:** https://peruntukan.kedah.gov.my
+  - **Status:** LIVE (v2.0.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS
+  - **Description:** Government resource allocation platform serving 500+ concurrent users with role-based document workflows and budget audit trails in Kedah, Malaysia.
+
+- [Filmophia](https://portfolio.xzett.me/project/filmophia)
+  - **Live URL:** https://filmophia.lovable.app/
+  - **GitHub:** https://github.com/Irrfan47/filmophia
+  - **Status:** LIVE (v1.0.0)
+  - **Tech Stack:** React, TypeScript, Supabase, Tailwind CSS, TMDB API, Framer Motion
+  - **Description:** Real-time movie discovery platform with Supabase auth, TMDB integration, and a glassmorphism UI achieving a 60% reduction in API lag.
+
+- [Enterprise Management System](https://portfolio.xzett.me/project/enterprise-management-system)
+  - **Live URL:** https://ems.nurkamal.com.my/
+  - **Status:** LIVE (v1.2.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** PHP, MySQL, Bootstrap 5, JavaScript, FontAwesome, Chart.js
+  - **Description:** Unified enterprise platform consolidating 6 operational modules: ticketing, quotation management, fleet tracking, staff management, inventory control, and executive dashboards.
+
+- [Helpdesk System](https://portfolio.xzett.me/project/helpdesk-system)
+  - **Live URL:** https://helpdesk.nurkamal.com.my/
+  - **GitHub:** https://github.com/Irrfan47/helpdesk
+  - **Status:** LIVE (v1.0.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS, Vite
+  - **Description:** Enterprise ticket management with real-time notification pipelines, SLA tracking, file validation, and resolution analytics.
+
+- [Personal Portfolio](https://portfolio.xzett.me/project/personal-portfolio)
+  - **Live URL:** https://portfolio.xzett.me
+  - **GitHub:** https://github.com/Irrfan47/portfolio
+  - **Status:** LIVE (v2.0.26)
+  - **Tech Stack:** React, TypeScript, Tailwind CSS, Vite, Framer Motion
+  - **Description:** Performance-optimized portfolio with Nothing OS aesthetic, custom spring-physics cursor, terminal boot sequence, and a 98 Lighthouse score.
+
+- [Classical Architect](https://portfolio.xzett.me/project/classical-architect-landing-website)
+  - **Status:** IN_DEV (v1.0.0)
+  - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS
+  - **Description:** Showcase site with secure admin control panel, PHP backend, and MySQL database for real-time content and image updates.
+
+- [Fleet Management System (Sistem Pengurusan Armada)](https://portfolio.xzett.me/project/fleet-management-system)
+  - **Status:** IN_DEV (v1.0.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** React, TypeScript, Tailwind CSS, PHP, Laravel, MySQL, Sanctum
+  - **Description:** Enterprise fleet management system with role-based dashboard, vehicle tracking, driver allocation, automated compliance alerts, and anti-brute-force security protections.
+
+- [Padetha Rusk](https://portfolio.xzett.me/project/padetha-rusk)
+  - **GitHub:** https://github.com/Irrfan47/padetha-rusk
+  - **Status:** STABLE (v1.0.0)
+  - **Tech Stack:** React, Tailwind CSS, TypeScript, HTML
+  - **Description:** Digital brand platform for a 55-year-old Burmese tea-time brand, bridging traditional heritage aesthetics with modern web conventions.
+
+- [Budget Management System](https://portfolio.xzett.me/project/budget-management-system)
+  - **GitHub:** https://github.com/Irrfan47/budget_management_system
+  - **Status:** STABLE (v1.0.0)
+  - **Tech Stack:** React, TypeScript, Tailwind CSS, Node.js, Express, MongoDB
+  - **Description:** Multi-role financial workflow system with RBAC, state machine transitions, optimistic UI updates, and real-time audit logging.
+
+- [Equipment Management System](https://portfolio.xzett.me/project/equipment-management-system)
+  - **GitHub:** https://github.com/Irrfan47/equipment_management_system
+  - **Status:** LIVE (v1.0.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** PHP, MySQL, Tailwind CSS, FontAwesome, JavaScript
+  - **Description:** Asset tracking system with polymorphic equipment schemas, PDF inventory report generation, and maintenance scheduling.
+
+- [Quotation Management System](https://portfolio.xzett.me/project/quotation-management-system)
+  - **GitHub:** https://github.com/Irrfan47/quotation-management-system
+  - **Status:** LIVE (v1.0.0) | Organization: Nurkamal Network Sdn Bhd
+  - **Tech Stack:** PHP, MySQL, Bootstrap, JavaScript, FontAwesome
+  - **Description:** Multi-stage quotation workflow with staff workload balancing, approval chains, and real-time status tracking.
+
+- [Web App Vulnerability Scanner](https://portfolio.xzett.me/project/web-app-vulnerability-scanner)
+  - **GitHub:** https://github.com/Irrfan47/Web-Application-Vulnerability-Scanner
+  - **Status:** FYP (v0.9.1)
+  - **Tech Stack:** Python, Flask, HTML, CSS, JavaScript
+  - **Description:** Automated security assessment tool detecting SQL injection, XSS, and server misconfigurations with 35% improved accuracy over baseline open-source tools.

@@ -129,6 +129,7 @@ export function updateDOMSEO(seo: {
   // Open Graph
   updateMeta('meta[property="og:type"]', "content", seo.ogType || "website");
   updateMeta('meta[property="og:url"]', "content", seo.canonicalUrl);
+  updateMeta('meta[property="og:site_name"]', "content", "Kaung Khant Mg Mg Portfolio");
   updateMeta('meta[property="og:title"]', "content", seo.title);
   updateMeta('meta[property="og:description"]', "content", seo.description);
   updateMeta('meta[property="og:image"]', "content", seo.ogImage);
