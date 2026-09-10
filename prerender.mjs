@@ -241,11 +241,11 @@ async function staticFallbackRender(projects, seoUtils) {
               .map(
                 (p) => `
               <li>
-                <h3><a href="/project/${p.id}">${p.title}</a></h3>
+                <h3><a href="/project/${p.id}">${p.name}</a></h3>
                 <p>${p.description}</p>
-                <p><strong>Stack:</strong> ${p.tags ? p.tags.join(", ") : ""}</p>
+                <p><strong>Stack:</strong> ${p.techStack ? p.techStack.join(", ") : ""}</p>
                 ${p.liveUrl ? `<p><strong>Live Demo:</strong> <a href="${p.liveUrl}">${p.liveUrl}</a></p>` : ""}
-                ${p.githubUrl ? `<p><strong>Source Code:</strong> <a href="${p.githubUrl}">${p.githubUrl}</a></p>` : ""}
+                ${p.sourceCode ? `<p><strong>Source Code:</strong> <a href="${p.sourceCode}">${p.sourceCode}</a></p>` : ""}
               </li>`
               )
               .join("")}
@@ -268,22 +268,23 @@ async function staticFallbackRender(projects, seoUtils) {
         <article>
           <header>
             <a href="/">&larr; Back to Portfolio</a>
-            <h1>${project.title}</h1>
-            <p><strong>Category:</strong> ${project.category} | <strong>Status:</strong> ${project.status || "LIVE"}</p>
+            <h1>${project.name}</h1>
+            <p><strong>Status:</strong> ${project.status || "LIVE"}</p>
           </header>
           <main>
             <section>
               <h2>Overview</h2>
               <p>${project.description}</p>
+              <p>${project.fullDescription || ""}</p>
             </section>
             <section>
               <h2>Technologies &amp; Architecture</h2>
-              <p>${project.tags ? project.tags.join(", ") : ""}</p>
+              <p>${project.techStack ? project.techStack.join(", ") : ""}</p>
             </section>
             <section>
               <h2>Links</h2>
               ${project.liveUrl ? `<p><strong>Live Site:</strong> <a href="${project.liveUrl}">${project.liveUrl}</a></p>` : ""}
-              ${project.githubUrl ? `<p><strong>GitHub:</strong> <a href="${project.githubUrl}">${project.githubUrl}</a></p>` : ""}
+              ${project.sourceCode ? `<p><strong>GitHub / Source Code:</strong> <a href="${project.sourceCode}">${project.sourceCode}</a></p>` : ""}
             </section>
           </main>
         </article>
