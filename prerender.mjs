@@ -209,6 +209,105 @@ function escapeAttr(str) {
   return str.replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+// --- Static Semantic SSG Generator (used in headless CI without Chrome) ---
+async function staticFallbackRender(projects, seoUtils) {
+  const baseHtmlPath = join(DIST_DIR, "index.html");
+  if (!existsSync(baseHtmlPath)) return;
+  const baseHtml = readFileSync(baseHtmlPath, "utf-8");
+
+  // 1. Home Page
+  const homeSeo = seoUtils.getHomepageSEO();
+  let homeHtml = injectProjectSEO(baseHtml, homeSeo);
+  const homeCrawlerBody = `
+    <div id="root" data-hydrated="false">
+      <header>
+        <h1>Kaung Khant Mg Mg</h1>
+        <p>Full Stack Developer &amp; Web Architect</p>
+        <p>Location: Remote / Yangon, Myanmar | Contact: kaungkhant12359@gmail.com</p>
+        <nav>
+          <a href="/#home">Home</a> | <a href="/#about">About</a> | <a href="/#projects">Projects</a> | <a href="/#contact">Contact</a>
+        </nav>
+      </header>
+      <main>
+        <section id="about">
+          <h2>About</h2>
+          <p>Full-stack developer specializing in React, TypeScript, PHP, Node.js, and high-performance web systems.</p>
+          <p>Education: Bachelor of Computer Science, Albukhary International University (GPA: 3.69/4.0)</p>
+        </section>
+        <section id="projects">
+          <h2>Featured Projects</h2>
+          <ul>
+            ${projects
+              .map(
+                (p) => `
+              <li>
+                <h3><a href="/project/${p.id}">${p.title}</a></h3>
+                <p>${p.description}</p>
+                <p><strong>Stack:</strong> ${p.tags ? p.tags.join(", ") : ""}</p>
+                ${p.liveUrl ? `<p><strong>Live Demo:</strong> <a href="${p.liveUrl}">${p.liveUrl}</a></p>` : ""}
+                ${p.githubUrl ? `<p><strong>Source Code:</strong> <a href="${p.githubUrl}">${p.githubUrl}</a></p>` : ""}
+              </li>`
+              )
+              .join("")}
+          </ul>
+        </section>
+      </main>
+    </div>`;
+
+  homeHtml = homeHtml.replace(/<div id="root">[\s\S]*?<\/div>/i, homeCrawlerBody);
+  writeFileSync(baseHtmlPath, homeHtml, "utf-8");
+  console.log(`  ✓ Written (Static SSG): ${baseHtmlPath}`);
+
+  // 2. Project Pages
+  for (const project of projects) {
+    const seo = seoUtils.getProjectSEO(project);
+    let projectHtml = injectProjectSEO(baseHtml, seo);
+
+    const projectCrawlerBody = `
+      <div id="root" data-hydrated="false">
+        <article>
+          <header>
+            <a href="/">&larr; Back to Portfolio</a>
+            <h1>${project.title}</h1>
+            <p><strong>Category:</strong> ${project.category} | <strong>Status:</strong> ${project.status || "LIVE"}</p>
+          </header>
+          <main>
+            <section>
+              <h2>Overview</h2>
+              <p>${project.description}</p>
+            </section>
+            <section>
+              <h2>Technologies &amp; Architecture</h2>
+              <p>${project.tags ? project.tags.join(", ") : ""}</p>
+            </section>
+            <section>
+              <h2>Links</h2>
+              ${project.liveUrl ? `<p><strong>Live Site:</strong> <a href="${project.liveUrl}">${project.liveUrl}</a></p>` : ""}
+              ${project.githubUrl ? `<p><strong>GitHub:</strong> <a href="${project.githubUrl}">${project.githubUrl}</a></p>` : ""}
+            </section>
+          </main>
+        </article>
+      </div>`;
+
+    projectHtml = projectHtml.replace(/<div id="root">[\s\S]*?<\/div>/i, projectCrawlerBody);
+
+    const outDir = join(DIST_DIR, "project", project.id);
+    mkdirSync(outDir, { recursive: true });
+    const outPath = join(outDir, "index.html");
+    writeFileSync(outPath, projectHtml, "utf-8");
+    console.log(`  ✓ Written (Static SSG): ${outPath}`);
+  }
+
+  // 3. 404 Page
+  const notFoundSeo = seoUtils.getNotFoundSEO();
+  let notFoundHtml = injectProjectSEO(baseHtml, notFoundSeo);
+  const notFoundDir = join(DIST_DIR, "404");
+  mkdirSync(notFoundDir, { recursive: true });
+  writeFileSync(join(notFoundDir, "index.html"), notFoundHtml, "utf-8");
+  console.log(`  ✓ Written (Static SSG): ${join(notFoundDir, "index.html")}`);
+  console.log("\n✅ Static SSG Pre-render complete! All pages written to dist/.\n");
+}
+
 // --- Main prerender logic ---
 async function main() {
   console.log("\n🔎 Starting SSG pre-render pass...");
@@ -236,10 +335,10 @@ async function main() {
     console.log(`  ✓ Using system Chrome: ${chromePath}`);
   } else {
     console.warn(
-      "\n⚠️  No system Chrome/Chromium found. Skipping pre-render.\n" +
-      "   Install Chrome on the server: sudo apt-get install -y google-chrome-stable\n" +
-      "   The site will still work but pages won't be pre-rendered for SEO.\n"
+      "\n⚠️  No system Chrome/Chromium found in CI environment.\n" +
+      "   Falling back to Static Semantic SSG generator...\n"
     );
+    await staticFallbackRender(projects, seoUtils);
     server.close();
     return;
   }
