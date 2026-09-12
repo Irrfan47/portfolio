@@ -39,9 +39,7 @@ export function getProjectSEO(project: Project): ProjectSEO {
     "url": canonicalUrl,
     "image": ogImage,
     "author": {
-      "@type": "Person",
-      "name": "Kaung Khant Mg Mg",
-      "url": SITE_ORIGIN,
+      "@id": "https://portfolio.xzett.me/#person",
     },
     "keywords": project.techStack.join(", "),
   };

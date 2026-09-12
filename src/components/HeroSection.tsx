@@ -115,7 +115,7 @@ const HeroSection = () => {
                   <a
                     href="https://github.com/Irrfan47"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer me"
                     className="w-9 h-9 flex items-center justify-center border border-nothing-border text-muted-foreground hover:border-nothing-red hover:text-nothing-red transition-all hoverable shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                     title="GitHub"
                   >
@@ -124,7 +124,7 @@ const HeroSection = () => {
                   <a
                     href="https://www.linkedin.com/in/kaung-khant-mg-mg-26a98821a/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer me"
                     className="w-9 h-9 flex items-center justify-center border border-nothing-border text-muted-foreground hover:border-nothing-red hover:text-nothing-red transition-all hoverable shadow-[2px_2px_0px_0px_rgba(255,255,255,0.05)] hover:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                     title="LinkedIn"
                   >

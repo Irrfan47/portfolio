@@ -6,7 +6,7 @@
  * Usage: node prerender.mjs  (called automatically by `npm run build`)
  */
 
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer";
 import esbuild from "esbuild";
 import { createServer } from "node:http";
 import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from "node:fs";
@@ -16,6 +16,20 @@ import { platform } from "node:os";
 
 // --- Cross-platform Chrome/Chromium path detection ---
 function findChrome() {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH && existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+    return process.env.PUPPETEER_EXECUTABLE_PATH;
+  }
+  if (process.env.CHROME_PATH && existsSync(process.env.CHROME_PATH)) {
+    return process.env.CHROME_PATH;
+  }
+
+  try {
+    const bundledPath = puppeteer.executablePath();
+    if (bundledPath && existsSync(bundledPath)) {
+      return bundledPath;
+    }
+  } catch {}
+
   const os = platform();
 
   if (os === "win32") {
@@ -333,27 +347,33 @@ async function main() {
 
   const chromePath = findChrome();
   if (chromePath) {
-    console.log(`  ✓ Using system Chrome: ${chromePath}`);
-  } else {
+    console.log(`  ✓ Using Chrome/Chromium: ${chromePath}`);
+  }
+
+  let browser;
+  try {
+    const launchOptions = {
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+      ],
+    };
+    if (chromePath) {
+      launchOptions.executablePath = chromePath;
+    }
+    browser = await puppeteer.launch(launchOptions);
+  } catch (err) {
     console.warn(
-      "\n⚠️  No system Chrome/Chromium found in CI environment.\n" +
+      `\n⚠️  Puppeteer browser launch failed: ${err.message}\n` +
       "   Falling back to Static Semantic SSG generator...\n"
     );
     await staticFallbackRender(projects, seoUtils);
     server.close();
     return;
   }
-
-  const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: chromePath,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-    ],
-  });
 
   try {
     const page = await browser.newPage();

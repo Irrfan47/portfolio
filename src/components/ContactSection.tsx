@@ -193,7 +193,7 @@ const ContactSection = () => {
                 <a
                   href="https://github.com/Irrfan47"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   className="flex items-center gap-4 p-4 border border-nothing-border hover:border-nothing-red transition-colors group hoverable"
                 >
                   <Github className="w-6 h-6 text-foreground group-hover:text-nothing-red transition-colors" />
@@ -213,7 +213,7 @@ const ContactSection = () => {
                 <a
                   href="https://www.linkedin.com/in/kaung-khant-mg-mg-26a98821a/"
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   className="flex items-center gap-4 p-4 border border-nothing-border hover:border-nothing-red transition-colors group hoverable"
                 >
                   <Linkedin className="w-6 h-6 text-foreground group-hover:text-nothing-red transition-colors" />
