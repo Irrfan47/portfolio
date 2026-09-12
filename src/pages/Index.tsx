@@ -14,17 +14,20 @@ import Footer from "@/components/Footer";
 import { getHomepageSEO, updateDOMSEO } from "@/utils/seo";
 
 const checkBootStatus = (): boolean => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return true;
   const isBot = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|facebookexternalhit|twitterbot/i.test(
-    navigator.userAgent
+    navigator.userAgent || ""
   );
   if (isBot) return true;
 
-  const booted = localStorage.getItem("portfolio_booted");
-  const bootTime = localStorage.getItem("portfolio_boot_time");
-  if (booted && bootTime) {
-    const elapsed = Date.now() - parseInt(bootTime, 10);
-    return elapsed < 24 * 60 * 60 * 1000; // 24 hours
-  }
+  try {
+    const booted = localStorage.getItem("portfolio_booted");
+    const bootTime = localStorage.getItem("portfolio_boot_time");
+    if (booted && bootTime) {
+      const elapsed = Date.now() - parseInt(bootTime, 10);
+      return elapsed < 24 * 60 * 60 * 1000; // 24 hours
+    }
+  } catch {}
   return false;
 };
 

@@ -1,69 +1,12 @@
-/**
- * prerender.mjs
- * Post-build SSG script: launches a local static server, visits each route
- * with headless Puppeteer, and saves the fully-rendered HTML back to /dist.
- *
- * Usage: node prerender.mjs  (called automatically by `npm run build`)
- */
-
-import puppeteer from "puppeteer";
+import { build as viteBuild } from "vite";
 import esbuild from "esbuild";
-import { createServer } from "node:http";
-import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from "node:fs";
-import { resolve, join, extname } from "node:path";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from "node:fs";
+import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { platform } from "node:os";
-
-// --- Cross-platform Chrome/Chromium path detection ---
-function findChrome() {
-  if (process.env.PUPPETEER_EXECUTABLE_PATH && existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
-    return process.env.PUPPETEER_EXECUTABLE_PATH;
-  }
-  if (process.env.CHROME_PATH && existsSync(process.env.CHROME_PATH)) {
-    return process.env.CHROME_PATH;
-  }
-
-  try {
-    const bundledPath = puppeteer.executablePath();
-    if (bundledPath && existsSync(bundledPath)) {
-      return bundledPath;
-    }
-  } catch {}
-
-  const os = platform();
-
-  if (os === "win32") {
-    const windowsPaths = [
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-      process.env.LOCALAPPDATA + "\\Google\\Chrome\\Application\\chrome.exe",
-    ];
-    return windowsPaths.find(existsSync) ?? null;
-  }
-
-  if (os === "linux") {
-    const linuxPaths = [
-      "/usr/bin/google-chrome",
-      "/usr/bin/google-chrome-stable",
-      "/usr/bin/chromium",
-      "/usr/bin/chromium-browser",
-      "/snap/bin/chromium",
-      "/usr/lib/chromium-browser/chromium-browser",
-    ];
-    return linuxPaths.find(existsSync) ?? null;
-  }
-
-  if (os === "darwin") {
-    return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-  }
-
-  return null;
-}
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const DIST_DIR = resolve(__dirname, "dist");
-const PORT = 5050;
-const SITE_ORIGIN = "https://portfolio.xzett.me";
+const SERVER_DIR = resolve(__dirname, "dist-server");
 
 // --- Dynamic project loading from source using esbuild ---
 async function loadProjects() {
@@ -104,54 +47,6 @@ async function loadSEOUtils() {
   const base64 = Buffer.from(code).toString("base64");
   const mod = await import(`data:text/javascript;base64,${base64}`);
   return mod;
-}
-
-const MIME = {
-  ".html": "text/html; charset=utf-8",
-  ".js":   "application/javascript",
-  ".mjs":  "application/javascript",
-  ".css":  "text/css",
-  ".png":  "image/png",
-  ".jpg":  "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".webp": "image/webp",
-  ".svg":  "image/svg+xml",
-  ".ico":  "image/x-icon",
-  ".json": "application/json",
-  ".woff": "font/woff",
-  ".woff2":"font/woff2",
-  ".pdf":  "application/pdf",
-};
-
-// --- Minimal SPA-aware static file server ---
-function startServer() {
-  return new Promise((res, rej) => {
-    const server = createServer((req, httpRes) => {
-      const urlPath = req.url.split("?")[0];
-      let filePath = join(DIST_DIR, urlPath);
-
-      // SPA fallback: if no real file found, serve index.html
-      if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
-        filePath = join(DIST_DIR, "index.html");
-      }
-
-      try {
-        const content = readFileSync(filePath);
-        const ext = extname(filePath);
-        httpRes.writeHead(200, { "Content-Type": MIME[ext] ?? "application/octet-stream" });
-        httpRes.end(content);
-      } catch {
-        httpRes.writeHead(404);
-        httpRes.end("Not found");
-      }
-    });
-
-    server.listen(PORT, "127.0.0.1", () => {
-      console.log(`  ✓ Static server ready at http://localhost:${PORT}`);
-      res(server);
-    });
-    server.on("error", rej);
-  });
 }
 
 /**
@@ -223,118 +118,39 @@ function escapeAttr(str) {
   return str.replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// --- Static Semantic SSG Generator (used in headless CI without Chrome) ---
-async function staticFallbackRender(projects, seoUtils) {
-  const baseHtmlPath = join(DIST_DIR, "index.html");
-  if (!existsSync(baseHtmlPath)) return;
-  const baseHtml = readFileSync(baseHtmlPath, "utf-8");
-
-  // 1. Home Page
-  const homeSeo = seoUtils.getHomepageSEO();
-  let homeHtml = injectProjectSEO(baseHtml, homeSeo);
-  const homeCrawlerBody = `
-    <div id="root" data-hydrated="false">
-      <header>
-        <h1>Kaung Khant Mg Mg</h1>
-        <p>Full Stack Developer &amp; Web Architect</p>
-        <p>Location: Remote / Yangon, Myanmar | Contact: kaungkhant12359@gmail.com</p>
-        <nav>
-          <a href="/#home">Home</a> | <a href="/#about">About</a> | <a href="/#projects">Projects</a> | <a href="/#contact">Contact</a>
-        </nav>
-      </header>
-      <main>
-        <section id="about">
-          <h2>About</h2>
-          <p>Full-stack developer specializing in React, TypeScript, PHP, Node.js, and high-performance web systems.</p>
-          <p>Education: Bachelor of Computer Science, Albukhary International University (GPA: 3.69/4.0)</p>
-        </section>
-        <section id="projects">
-          <h2>Featured Projects</h2>
-          <ul>
-            ${projects
-              .map(
-                (p) => `
-              <li>
-                <h3><a href="/project/${p.id}">${p.name}</a></h3>
-                <p>${p.description}</p>
-                <p><strong>Stack:</strong> ${p.techStack ? p.techStack.join(", ") : ""}</p>
-                ${p.liveUrl ? `<p><strong>Live Demo:</strong> <a href="${p.liveUrl}">${p.liveUrl}</a></p>` : ""}
-                ${p.sourceCode ? `<p><strong>Source Code:</strong> <a href="${p.sourceCode}">${p.sourceCode}</a></p>` : ""}
-              </li>`
-              )
-              .join("")}
-          </ul>
-        </section>
-      </main>
-    </div>`;
-
-  homeHtml = homeHtml.replace(/<div id="root">[\s\S]*?<\/div>/i, homeCrawlerBody);
-  writeFileSync(baseHtmlPath, homeHtml, "utf-8");
-  console.log(`  ✓ Written (Static SSG): ${baseHtmlPath}`);
-
-  // 2. Project Pages
-  for (const project of projects) {
-    const seo = seoUtils.getProjectSEO(project);
-    let projectHtml = injectProjectSEO(baseHtml, seo);
-
-    const projectCrawlerBody = `
-      <div id="root" data-hydrated="false">
-        <article>
-          <header>
-            <a href="/">&larr; Back to Portfolio</a>
-            <h1>${project.name}</h1>
-            <p><strong>Status:</strong> ${project.status || "LIVE"}</p>
-          </header>
-          <main>
-            <section>
-              <h2>Overview</h2>
-              <p>${project.description}</p>
-              <p>${project.fullDescription || ""}</p>
-            </section>
-            <section>
-              <h2>Technologies &amp; Architecture</h2>
-              <p>${project.techStack ? project.techStack.join(", ") : ""}</p>
-            </section>
-            <section>
-              <h2>Links</h2>
-              ${project.liveUrl ? `<p><strong>Live Site:</strong> <a href="${project.liveUrl}">${project.liveUrl}</a></p>` : ""}
-              ${project.sourceCode ? `<p><strong>GitHub / Source Code:</strong> <a href="${project.sourceCode}">${project.sourceCode}</a></p>` : ""}
-            </section>
-          </main>
-        </article>
-      </div>`;
-
-    projectHtml = projectHtml.replace(/<div id="root">[\s\S]*?<\/div>/i, projectCrawlerBody);
-
-    const outDir = join(DIST_DIR, "project", project.id);
-    mkdirSync(outDir, { recursive: true });
-    const outPath = join(outDir, "index.html");
-    writeFileSync(outPath, projectHtml, "utf-8");
-    console.log(`  ✓ Written (Static SSG): ${outPath}`);
-  }
-
-  // 3. 404 Page
-  const notFoundSeo = seoUtils.getNotFoundSEO();
-  let notFoundHtml = injectProjectSEO(baseHtml, notFoundSeo);
-  const notFoundDir = join(DIST_DIR, "404");
-  mkdirSync(notFoundDir, { recursive: true });
-  writeFileSync(join(notFoundDir, "index.html"), notFoundHtml, "utf-8");
-  console.log(`  ✓ Written (Static SSG): ${join(notFoundDir, "index.html")}`);
-  console.log("\n✅ Static SSG Pre-render complete! All pages written to dist/.\n");
-}
-
-// --- Main prerender logic ---
+// --- Main prerender logic using React SSR ---
 async function main() {
-  console.log("\n🔎 Starting SSG pre-render pass...");
+  console.log("\n🔎 Starting SSG pre-render pass via React SSR...");
 
   if (!existsSync(DIST_DIR)) {
     console.error("❌ dist/ folder not found. Run `vite build` first.");
     process.exit(1);
   }
 
+  const templateHtml = readFileSync(join(DIST_DIR, "index.html"), "utf-8");
   const projects = await loadProjects();
   const seoUtils = await loadSEOUtils();
   console.log(`  ✓ Loaded ${projects.length} projects dynamically from src/data/projects.ts`);
+
+  // Build SSR bundle
+  console.log("  → Compiling SSR server entry...");
+  await viteBuild({
+    build: {
+      ssr: resolve(__dirname, "src/entry-server.tsx"),
+      outDir: SERVER_DIR,
+      minify: false,
+      rollupOptions: {
+        output: {
+          format: "esm",
+        },
+      },
+    },
+    configFile: resolve(__dirname, "vite.config.ts"),
+  });
+
+  const serverEntryPath = join(SERVER_DIR, "entry-server.js");
+  const { render } = await import(`file://${serverEntryPath.replace(/\\/g, "/")}`);
+  console.log("  ✓ Loaded SSR entry successfully");
 
   // Build routes dynamically from projects.ts
   const ROUTES = [
@@ -343,101 +159,61 @@ async function main() {
     ...projects.map((p) => `/project/${p.id}`),
   ];
 
-  const server = await startServer();
-
-  const chromePath = findChrome();
-  if (chromePath) {
-    console.log(`  ✓ Using Chrome/Chromium: ${chromePath}`);
-  }
-
-  let browser;
-  try {
-    const launchOptions = {
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-      ],
-    };
-    if (chromePath) {
-      launchOptions.executablePath = chromePath;
+  for (const route of ROUTES) {
+    console.log(`  → Pre-rendering: ${route}`);
+    let appHtml = "";
+    try {
+      appHtml = render(route);
+    } catch (err) {
+      console.error(`  ❌ Failed to render route ${route}:`, err);
     }
-    browser = await puppeteer.launch(launchOptions);
-  } catch (err) {
-    console.warn(
-      `\n⚠️  Puppeteer browser launch failed: ${err.message}\n` +
-      "   Falling back to Static Semantic SSG generator...\n"
-    );
-    await staticFallbackRender(projects, seoUtils);
-    server.close();
-    return;
-  }
 
-  try {
-    const page = await browser.newPage();
+    let pageHtml = templateHtml;
 
-    // Set custom user-agent to bypass boot sequence and indicate bot crawler
-    await page.setUserAgent(
-      "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    );
-
-    // Silence noisy React/app console output during render
-    page.on("console", () => {});
-    page.on("pageerror", () => {});
-
-    for (const route of ROUTES) {
-      const url = `http://localhost:${PORT}${route === "/404" ? "/404" : route}`;
-      console.log(`  → Rendering: ${route}`);
-
-      await page.goto(url, { waitUntil: "networkidle0", timeout: 30_000 });
-
-      // Wait for React to mount and set data-hydrated="true"
-      try {
-        await page.waitForSelector('[data-hydrated="true"]', { timeout: 8000 });
-      } catch {
-        // Fallback short wait if the selector isn't found
-        await new Promise((r) => setTimeout(r, 1000));
-      }
-
-      let html = await page.content();
-
-      // Route-specific SEO injection
-      if (route === "/") {
-        const homepageSeo = seoUtils.getHomepageSEO();
-        html = injectProjectSEO(html, homepageSeo);
-      } else if (route === "/404") {
-        const notFoundSeo = seoUtils.getNotFoundSEO();
-        html = injectProjectSEO(html, notFoundSeo);
-      } else if (route.startsWith("/project/")) {
-        const projectId = route.replace("/project/", "");
-        const project = projects.find((p) => p.id === projectId);
-        if (project) {
-          const seo = seoUtils.getProjectSEO(project);
-          html = injectProjectSEO(html, seo);
-        }
-      }
-
-      // Determine output path
-      const outPath =
-        route === "/"
-          ? join(DIST_DIR, "index.html")
-          : join(DIST_DIR, route.replace(/^\//, ""), "index.html");
-
-      // Create sub-directory for nested routes like /project/{id}/index.html
-      const outDir = outPath.replace(/[/\\]index\.html$/, "");
-      if (outDir !== DIST_DIR) mkdirSync(outDir, { recursive: true });
-
-      writeFileSync(outPath, html, "utf-8");
-      console.log(`  ✓ Written: ${outPath}`);
+    // Inject rendered React DOM into #root with hydration marker
+    if (appHtml) {
+      pageHtml = pageHtml.replace(
+        /<div id="root"[^>]*>([\s\S]*?)<\/div>/i,
+        `<div id="root" data-hydrated="true">${appHtml}</div>`
+      );
     }
-  } finally {
-    await browser.close();
-    server.close();
+
+    // Route-specific SEO injection
+    if (route === "/") {
+      const homepageSeo = seoUtils.getHomepageSEO();
+      pageHtml = injectProjectSEO(pageHtml, homepageSeo);
+    } else if (route === "/404") {
+      const notFoundSeo = seoUtils.getNotFoundSEO();
+      pageHtml = injectProjectSEO(pageHtml, notFoundSeo);
+    } else if (route.startsWith("/project/")) {
+      const projectId = route.replace("/project/", "");
+      const project = projects.find((p) => p.id === projectId);
+      if (project) {
+        const seo = seoUtils.getProjectSEO(project);
+        pageHtml = injectProjectSEO(pageHtml, seo);
+      }
+    }
+
+    // Determine output path
+    const outPath =
+      route === "/"
+        ? join(DIST_DIR, "index.html")
+        : join(DIST_DIR, route.replace(/^\//, ""), "index.html");
+
+    // Create sub-directory for nested routes like /project/{id}/index.html
+    const outDir = outPath.replace(/[/\\]index\.html$/, "");
+    if (outDir !== DIST_DIR) mkdirSync(outDir, { recursive: true });
+
+    writeFileSync(outPath, pageHtml, "utf-8");
+    console.log(`  ✓ Written: ${outPath} (${pageHtml.length.toLocaleString()} bytes)`);
   }
 
-  console.log("\n✅ Pre-render complete! All pages written to dist/ with unique SEO.\n");
+  // Cleanup temporary SSR build folder
+  try {
+    rmSync(SERVER_DIR, { recursive: true, force: true });
+  } catch {}
+
+  console.log("\n✅ SSG Pre-render complete! All pages written to dist/ with full React DOM & SEO.\n");
 }
 
 main().catch((err) => {
