@@ -81,7 +81,7 @@ const StatusBar = () => {
       <div className="container flex items-center justify-between h-16 px-6">
         {/* Left - Clock */}
         <div className="flex items-center gap-4 hidden md:flex">
-          <span className="font-mono text-sm text-foreground tabular-nums">
+          <span className="font-mono text-sm text-foreground tabular-nums" suppressHydrationWarning>
             {formatTime(time)}
           </span>
           <div className="flex items-center gap-2 text-muted-foreground">

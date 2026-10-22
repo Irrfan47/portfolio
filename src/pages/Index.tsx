@@ -64,43 +64,39 @@ const Index = () => {
         }} />
       )}
 
-      {bootComplete && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="min-h-screen bg-background relative"
-          onAnimationComplete={() => {
-            document.getElementById("root")?.setAttribute("data-hydrated", "true");
-          }}
-        >
+      <motion.div
+        initial={false}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen bg-background relative"
+        onAnimationComplete={() => {
+          document.getElementById("root")?.setAttribute("data-hydrated", "true");
+        }}
+      >
+        {/* Dot Pattern Background */}
+        <div className="fixed inset-0 pointer-events-none dot-pattern opacity-50" />
 
+        <StatusBar />
 
-          {/* Dot Pattern Background */}
-          <div className="fixed inset-0 pointer-events-none dot-pattern opacity-50" />
+        <main className="relative z-10">
+          <section id="home">
+            <HeroSection />
+          </section>
+          <section id="about">
+            <ExperienceSection />
+            <EducationSection />
+            <CertificatesSection />
+          </section>
+          <section id="projects">
+            <ProjectsSection />
+          </section>
+          <section id="contact">
+            <ContactSection />
+          </section>
+        </main>
 
-          <StatusBar />
-
-          <main className="relative z-10">
-            <section id="home">
-              <HeroSection />
-            </section>
-            <section id="about">
-              <ExperienceSection />
-              <EducationSection />
-              <CertificatesSection />
-            </section>
-            <section id="projects">
-              <ProjectsSection />
-            </section>
-            <section id="contact">
-              <ContactSection />
-            </section>
-          </main>
-
-          <Footer />
-        </motion.div>
-      )}
+        <Footer />
+      </motion.div>
     </>
   );
 };

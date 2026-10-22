@@ -41,7 +41,7 @@ const ProjectsSection = () => {
             return (
               <Link
                 key={project.id}
-                to={`/project/${project.id}`}
+                to={`/project/${project.id}/`}
                 className={`w-full ${isHidden ? "hidden" : "block"}`}
               >
                 <motion.div
@@ -59,6 +59,8 @@ const ProjectsSection = () => {
                       <img
                         src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.screenshots[0]}`}
                         alt={`${project.name} Application Preview`}
+                        width={1920}
+                        height={1080}
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                         loading="lazy"
                       />
@@ -135,6 +137,27 @@ const ProjectsSection = () => {
             );
           })}
         </div>
+
+        {/* Fallback for non-JavaScript search crawlers */}
+        <noscript>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+            {projects.slice(6).map((project) => (
+              <a
+                key={`noscript-${project.id}`}
+                href={`/project/${project.id}/`}
+                className="w-full block glass-panel p-4 sm:p-5 border border-nothing-border"
+              >
+                <h3 className="font-mono text-base font-medium text-foreground mb-2">
+                  {project.name}
+                </h3>
+                <p className="font-mono text-xs text-muted-foreground mb-4">
+                  {project.description}
+                </p>
+                <span className="font-mono text-xs text-nothing-red">VIEW_PROJECT →</span>
+              </a>
+            ))}
+          </div>
+        </noscript>
 
         {/* Load More Button */}
         {visibleCount < projects.length && (

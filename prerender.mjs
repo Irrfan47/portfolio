@@ -49,6 +49,8 @@ async function loadSEOUtils() {
   return mod;
 }
 
+import zlib from "node:zlib";
+
 /**
  * Injects project-specific SEO meta tags, title, and JSON-LD schema directly into HTML <head>.
  */
@@ -63,13 +65,33 @@ function injectProjectSEO(html, seo) {
     modified = modified.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, `<meta name="description" content="${escapeAttr(seo.description)}" />`);
   }
 
-  // Replace link rel="canonical"
-  if (modified.includes('rel="canonical"')) {
-    modified = modified.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${seo.canonicalUrl}" />`);
+  // Handle canonical link
+  if (seo.canonicalUrl) {
+    if (modified.includes('rel="canonical"')) {
+      modified = modified.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${seo.canonicalUrl}" />`);
+    } else {
+      modified = modified.replace("</head>", `  <link rel="canonical" href="${seo.canonicalUrl}" />\n</head>`);
+    }
+  } else {
+    // If no canonicalUrl (e.g. 404 page), remove canonical link
+    modified = modified.replace(/\s*<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/gi, "");
+  }
+
+  // Handle robots directive
+  if (seo.noIndex) {
+    if (modified.includes('name="robots"')) {
+      modified = modified.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i, '<meta name="robots" content="noindex, nofollow" />');
+    } else {
+      modified = modified.replace("</head>", '  <meta name="robots" content="noindex, nofollow" />\n</head>');
+    }
+  } else {
+    if (modified.includes('name="robots"')) {
+      modified = modified.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i, '<meta name="robots" content="index, follow" />');
+    }
   }
 
   // Replace og:url
-  if (modified.includes('property="og:url"')) {
+  if (seo.canonicalUrl && modified.includes('property="og:url"')) {
     modified = modified.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${seo.canonicalUrl}" />`);
   }
 
@@ -103,12 +125,19 @@ function injectProjectSEO(html, seo) {
     modified = modified.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:image" content="${seo.ogImage}" />`);
   }
 
-  // Inject or ensure project JSON-LD schema is in <head>
-  const schemaString = JSON.stringify(seo.schemaJson, null, 2);
-  const schemaTag = `<script type="application/ld+json" data-project-schema="true">\n${schemaString}\n</script>`;
+  // Inject or clean project JSON-LD schema in <head>
+  if (seo.schemaJson && typeof seo.schemaJson === "object" && Object.keys(seo.schemaJson).length > 0) {
+    const schemaString = JSON.stringify(seo.schemaJson, null, 2);
+    const schemaTag = `<script type="application/ld+json" data-project-schema="true">\n${schemaString}\n</script>`;
 
-  if (!modified.includes('data-project-schema="true"')) {
-    modified = modified.replace("</head>", `  ${schemaTag}\n</head>`);
+    if (modified.includes('data-project-schema="true"')) {
+      modified = modified.replace(/<script type="application\/ld\+json" data-project-schema="true">[\s\S]*?<\/script>/i, schemaTag);
+    } else {
+      modified = modified.replace("</head>", `  ${schemaTag}\n</head>`);
+    }
+  } else {
+    // If no valid schemaJson, remove any data-project-schema script tag
+    modified = modified.replace(/\s*<script type="application\/ld\+json" data-project-schema="true">[\s\S]*?<\/script>/gi, "");
   }
 
   return modified;
@@ -116,6 +145,37 @@ function injectProjectSEO(html, seo) {
 
 function escapeAttr(str) {
   return str.replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Helper to write an HTML file and its corresponding .gz and .br pre-compressed files
+function writeHtmlWithCompression(filePath, content) {
+  const dir = filePath.replace(/[/\\][^/\\]+$/, "");
+  if (dir && !existsSync(dir)) {
+    mkdirSync(dir, { recursive: true });
+  }
+
+  writeFileSync(filePath, content, "utf-8");
+  writeFileSync(`${filePath}.gz`, zlib.gzipSync(Buffer.from(content, "utf-8")));
+  writeFileSync(`${filePath}.br`, zlib.brotliCompressSync(Buffer.from(content, "utf-8")));
+}
+
+// Validates all JSON-LD script blocks in the HTML string to guarantee syntax correctness
+function validateJsonLd(html, routeName) {
+  const jsonLdRegex = /<script\s+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
+  let match;
+  let blockIndex = 0;
+  while ((match = jsonLdRegex.exec(html)) !== null) {
+    blockIndex++;
+    const rawContent = match[1].trim();
+    if (!rawContent || rawContent === "undefined") {
+      throw new Error(`Route ${routeName}: JSON-LD block #${blockIndex} contains invalid/undefined content!`);
+    }
+    try {
+      JSON.parse(rawContent);
+    } catch (err) {
+      throw new Error(`Route ${routeName}: JSON-LD block #${blockIndex} failed JSON.parse(): ${err.message}\nContent:\n${rawContent}`);
+    }
+  }
 }
 
 // --- Main prerender logic using React SSR ---
@@ -152,11 +212,11 @@ async function main() {
   const { render } = await import(`file://${serverEntryPath.replace(/\\/g, "/")}`);
   console.log("  ✓ Loaded SSR entry successfully");
 
-  // Build routes dynamically from projects.ts
+  // Build routes dynamically from projects.ts with standardized trailing slashes
   const ROUTES = [
     "/",
     "/404",
-    ...projects.map((p) => `/project/${p.id}`),
+    ...projects.map((p) => `/project/${p.id}/`),
   ];
 
   for (const route of ROUTES) {
@@ -186,7 +246,7 @@ async function main() {
       const notFoundSeo = seoUtils.getNotFoundSEO();
       pageHtml = injectProjectSEO(pageHtml, notFoundSeo);
     } else if (route.startsWith("/project/")) {
-      const projectId = route.replace("/project/", "");
+      const projectId = route.replace(/^\/project\//, "").replace(/\/$/, "");
       const project = projects.find((p) => p.id === projectId);
       if (project) {
         const seo = seoUtils.getProjectSEO(project);
@@ -194,26 +254,67 @@ async function main() {
       }
     }
 
-    // Determine output path
-    const outPath =
-      route === "/"
-        ? join(DIST_DIR, "index.html")
-        : join(DIST_DIR, route.replace(/^\//, ""), "index.html");
+    // Validate JSON-LD structured data syntax in generated HTML
+    validateJsonLd(pageHtml, route);
 
-    // Create sub-directory for nested routes like /project/{id}/index.html
-    const outDir = outPath.replace(/[/\\]index\.html$/, "");
-    if (outDir !== DIST_DIR) mkdirSync(outDir, { recursive: true });
+    // Determine output path(s)
+    if (route === "/") {
+      const outPath = join(DIST_DIR, "index.html");
+      writeHtmlWithCompression(outPath, pageHtml);
+      console.log(`  ✓ Written & compressed: ${outPath} (${pageHtml.length.toLocaleString()} bytes)`);
+    } else if (route === "/404") {
+      // Cloudflare '404-page' mode expects dist/404.html at root
+      const root404Path = join(DIST_DIR, "404.html");
+      writeHtmlWithCompression(root404Path, pageHtml);
 
-    writeFileSync(outPath, pageHtml, "utf-8");
-    console.log(`  ✓ Written: ${outPath} (${pageHtml.length.toLocaleString()} bytes)`);
+      // Also support direct /404/ navigation
+      const dir404Path = join(DIST_DIR, "404", "index.html");
+      writeHtmlWithCompression(dir404Path, pageHtml);
+      console.log(`  ✓ Written & compressed: ${root404Path} & ${dir404Path}`);
+    } else {
+      // Nested project routes e.g. dist/project/{id}/index.html
+      const subPath = route.replace(/^\//, "").replace(/\/$/, "");
+      const outPath = join(DIST_DIR, subPath, "index.html");
+      writeHtmlWithCompression(outPath, pageHtml);
+      console.log(`  ✓ Written & compressed: ${outPath} (${pageHtml.length.toLocaleString()} bytes)`);
+    }
   }
+
+  // --- Generate synchronized canonical XML sitemap ---
+  console.log("  → Generating synchronized sitemap.xml...");
+  const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://portfolio.xzett.me/</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Project Pages -->
+${projects.map((p) => `  <url>
+    <loc>https://portfolio.xzett.me/project/${p.id}/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`).join("\n")}
+
+</urlset>
+`;
+
+  writeFileSync(join(DIST_DIR, "sitemap.xml"), sitemapContent, "utf-8");
+  console.log(`  ✓ Generated dist/sitemap.xml (1 homepage + ${projects.length} project routes)`);
 
   // Cleanup temporary SSR build folder
   try {
     rmSync(SERVER_DIR, { recursive: true, force: true });
   } catch {}
 
-  console.log("\n✅ SSG Pre-render complete! All pages written to dist/ with full React DOM & SEO.\n");
+  console.log("\n✅ SSG Pre-render complete! All pages written to dist/ with verified JSON-LD & matching compression.\n");
 }
 
 main().catch((err) => {

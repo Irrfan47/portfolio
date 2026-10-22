@@ -14,7 +14,7 @@ export interface ProjectSEO {
 export function getProjectSEO(project: Project): ProjectSEO {
   const title = project.seoTitle || `${project.name} | Kaung Khant Mg Mg Portfolio`;
   const description = project.seoDescription || project.description;
-  const canonicalUrl = `${SITE_ORIGIN}/project/${project.id}`;
+  const canonicalUrl = `${SITE_ORIGIN}/project/${project.id}/`;
 
   const imagePath = project.screenshots.length > 0 ? project.screenshots[0] : "/og-preview.png";
   const ogImage = imagePath.startsWith("http") ? imagePath : `${SITE_ORIGIN}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
@@ -32,10 +32,9 @@ export function getProjectSEO(project: Project): ProjectSEO {
   }
 
   const baseSchema: Record<string, any> = {
-    "@context": "https://schema.org",
     "@type": schemaType,
     "name": project.name,
-    "description": project.description,
+    "description": description,
     "url": canonicalUrl,
     "image": ogImage,
     "author": {
@@ -50,13 +49,46 @@ export function getProjectSEO(project: Project): ProjectSEO {
   if (project.sourceCode) {
     baseSchema["codeRepository"] = project.sourceCode;
   }
+
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": `${SITE_ORIGIN}/`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Projects",
+        "item": `${SITE_ORIGIN}/#projects`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": project.name,
+        "item": canonicalUrl
+      }
+    ]
+  };
+
+  const schemaGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbSchema,
+      baseSchema
+    ]
+  };
+
   return {
     title,
     description,
     canonicalUrl,
     ogImage,
     schemaType,
-    schemaJson: baseSchema,
+    schemaJson: schemaGraph,
   };
 }
 
@@ -66,6 +98,7 @@ export interface PageSEO {
   canonicalUrl: string;
   ogImage: string;
   ogType?: string;
+  noIndex?: boolean;
 }
 
 export function getHomepageSEO(): PageSEO {
@@ -82,9 +115,10 @@ export function getNotFoundSEO(): PageSEO {
   return {
     title: "404: Page Not Found | Kaung Khant Mg Mg",
     description: "The requested page does not exist on Kaung Khant Mg Mg's portfolio.",
-    canonicalUrl: `${SITE_ORIGIN}/404`,
+    canonicalUrl: "",
     ogImage: `${SITE_ORIGIN}/og-preview.png`,
-    ogType: "website"
+    ogType: "website",
+    noIndex: true
   };
 }
 
@@ -122,7 +156,17 @@ export function updateDOMSEO(seo: {
   };
 
   updateMeta('meta[name="description"]', "content", seo.description);
-  updateLink("canonical", seo.canonicalUrl);
+
+  if (seo.noIndex) {
+    updateMeta('meta[name="robots"]', "content", "noindex, nofollow");
+    const canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (canonicalEl) canonicalEl.remove();
+  } else {
+    updateMeta('meta[name="robots"]', "content", "index, follow");
+    if (seo.canonicalUrl) {
+      updateLink("canonical", seo.canonicalUrl);
+    }
+  }
 
   // Open Graph
   updateMeta('meta[property="og:type"]', "content", seo.ogType || "website");

@@ -52,7 +52,7 @@ const ProjectDetail = () => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="min-h-screen bg-background relative"
@@ -234,12 +234,12 @@ const ProjectDetail = () => {
                         key={currentImageIndex}
                         src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${project.screenshots[currentImageIndex]}`}
                         alt={`${project.name} — project screenshot ${currentImageIndex + 1}`}
+                        width={1920}
+                        height={1080}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        onLoad={(e) => ((e.target as HTMLImageElement).style.opacity = "1")}
-                        style={{ opacity: 0, transition: "opacity 0.2s" }}
                         className="w-full h-full object-cover"
                         loading={currentImageIndex === 0 ? "eager" : "lazy"}
                       />
@@ -309,7 +309,7 @@ const ProjectDetail = () => {
                     {relatedList.map((relProject) => (
                       <Link
                         key={relProject.id}
-                        to={`/project/${relProject.id}`}
+                        to={`/project/${relProject.id}/`}
                         className="block group"
                       >
                         <div className="glass-panel p-4 h-full flex flex-col justify-between border border-nothing-border hover:border-nothing-red/50 transition-all duration-300">
@@ -317,8 +317,8 @@ const ProjectDetail = () => {
                             <img
                               src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${relProject.screenshots[0]}`}
                               alt={`${relProject.name} — project preview`}
-                              width={300}
-                              height={169}
+                              width={1920}
+                              height={1080}
                               className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                               loading="lazy"
                             />
