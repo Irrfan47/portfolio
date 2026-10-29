@@ -14,6 +14,16 @@
 
   <!-- Project Pages -->
   <url>
+    <loc>https://portfolio.xzett.me/project/aiu-procurement-system/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://portfolio.xzett.me/project/kkbda-library-system/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://portfolio.xzett.me/project/classical-architect-landing-website/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

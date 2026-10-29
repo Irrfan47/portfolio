@@ -90,6 +90,16 @@ Full-stack developer with production experience shipping features used by govern
   - **Tech Stack:** React, TypeScript, Tailwind CSS, Vite, Framer Motion
   - **Description:** Performance-optimized portfolio with Nothing OS aesthetic, custom spring-physics cursor, terminal boot sequence, and a 98 Lighthouse score.
 
+- [AIU Procurement System](https://portfolio.xzett.me/project/aiu-procurement-system)
+  - **Status:** IN_DEV (v1.0.0) | Organization: Albukhary International University
+  - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS
+  - **Description:** Web-based university procurement platform transitioning manual purchasing workflows into a centralized digital management system with dynamic forms and role-based approvals.
+
+- [KKBDA Library System](https://portfolio.xzett.me/project/kkbda-library-system)
+  - **Status:** IN_DEV (v1.0.0) | Organization: KKBDA Community Library (Jitra, Malaysia)
+  - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS, Cron Jobs
+  - **Description:** Custom library management system modernizing legacy Koha operations, migrating 9,000+ bibliographic records with automated scheduled cron tasks for circulation and overdue fines.
+
 - [Classical Architect](https://portfolio.xzett.me/project/classical-architect-landing-website)
   - **Status:** IN_DEV (v1.0.0)
   - **Tech Stack:** React, TypeScript, PHP, MySQL, Tailwind CSS

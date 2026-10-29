@@ -23,6 +23,60 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "aiu-procurement-system",
+    name: "AIU Procurement System",
+    version: "v1.0.0",
+    status: "IN_DEV",
+    company: {
+      name: "Albukhary International University",
+      logo: "/images/companies/aiu_logo.webp",
+      url: "https://aiu.edu.my"
+    },
+    description: "Web-based university procurement platform transitioning manual purchasing workflows into a centralized digital management system.",
+    fullDescription: "Enterprise procurement management system developed for Albukhary International University (AIU) to transition the university's procurement unit from manual, paper-based processes to a modern web-based management platform. Features end-to-end requisition handling, itemized quotation comparisons, approval workflows, and expenditure tracking tailored to institutional policies.\n\nChallenge: Cross-checking workflows across numerous administrative teams and departments to craft an intuitive, user-friendly UI while guaranteeing strict data-type accuracy and consistency with real-world daily procurement paperwork.\nSolution: Collaborated closely with multi-departmental stakeholders to map legacy paper forms into structured MySQL relational schemas. Developed responsive, type-safe React and TypeScript interfaces with rigorous frontend data validation, backed by secure PHP API services to streamline daily purchasing requests and status tracking.",
+    techStack: ["React", "TypeScript", "PHP", "MySQL", "Tailwind CSS"],
+    screenshots: [
+      "/images/projects/procurement/procurement_1.webp",
+      "/images/projects/procurement/procurement_2.webp",
+      "/images/projects/procurement/procurement_3.webp",
+      "/images/projects/procurement/procurement_4.webp",
+      "/images/projects/procurement/procurement_5.webp",
+      "/images/projects/procurement/procurement_6.webp"
+    ],
+    featured: true,
+    seoTitle: "AIU Procurement System — Digital University Purchasing Platform | Kaung Khant Mg Mg",
+    seoDescription: "Web-based procurement management platform for Albukhary International University transitioning manual purchasing into a modern digital workflow.",
+    schemaType: "WebApplication",
+    relatedProjectIds: ["allocation-management-system", "quotation-management-system", "budget-management-system"]
+  },
+  {
+    id: "kkbda-library-system",
+    name: "KKBDA Library System",
+    version: "v1.0.0",
+    status: "IN_DEV",
+    company: {
+      name: "KKBDA Community Library",
+      logo: "/images/companies/kkbda_logo.svg",
+    },
+    description: "Custom library management system modernizing legacy Koha operations, migrating 9,000+ bibliographic records with automated scheduled cron tasks.",
+    fullDescription: "Custom library management system built for the KKBDA community library in Jitra, Kedah, Malaysia. Commissioned to replace an outdated Koha setup with a tailored, modern web application offering streamlined book cataloging, patron management, barcode checkout, and circulation monitoring.\n\nChallenge: Seamlessly migrating historical data from the legacy Koha system into the new application, accurately transferring more than 9,000+ catalog records, patron memberships, borrow histories, and active circulation logs without data loss.\nSolution: Architected robust ETL migration scripts to parse, cleanse, and normalize legacy Koha records into a high-performance MySQL schema. Built a responsive React/TypeScript frontend backed by PHP endpoints, and configured automated background cron jobs for overdue calculation, fine assessment, membership status renewals, and system maintenance.",
+    techStack: ["React", "TypeScript", "PHP", "MySQL", "Tailwind CSS", "Cron Jobs"],
+    screenshots: [
+      "/images/projects/kkbda/kkbda_1.webp",
+      "/images/projects/kkbda/kkbda_2.webp",
+      "/images/projects/kkbda/kkbda_3.webp",
+      "/images/projects/kkbda/kkbda_4.webp",
+      "/images/projects/kkbda/kkbda_5.webp",
+      "/images/projects/kkbda/kkbda_6.webp",
+      "/images/projects/kkbda/kkbda_7.webp"
+    ],
+    featured: true,
+    seoTitle: "KKBDA Library System — Custom Library Management & Koha Migration | Kaung Khant Mg Mg",
+    seoDescription: "Custom library management system for KKBDA Library in Jitra, Malaysia, featuring legacy Koha migration of 9k+ records and automated cron jobs.",
+    schemaType: "WebApplication",
+    relatedProjectIds: ["allocation-management-system", "enterprise-management-system", "helpdesk-system"]
+  },
+  {
     id: "classical-architect-landing-website",
     name: "Classical Architect",
     version: "v1.0.0",
